@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from '../../router';
 
 /**
  * Helper component for displaying icons in the navigation list.
@@ -19,22 +18,27 @@ function NavIcon({ children }) {
  * Props:
  * - sidebarOpen: Boolean indicating if sidebar is open on mobile.
  * - setSidebarOpen: Function to toggle sidebar.
- * - activeTaskCount: Number of active tasks assigned to the current user.
+ * - activeView: Currently selected workspace view.
+ * - onViewChange: Function used to select a workspace view.
  */
-function Sidebar({ sidebarOpen, setSidebarOpen, activeTaskCount }) {
-  const { currentUser, logout, role, roleBadgeColor } = useAuth();
-  const navigate = useNavigate();
-
-  // Instant logout handler
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+function Sidebar({
+  sidebarOpen,
+  setSidebarOpen,
+  activeTaskCount,
+  activeView,
+  onViewChange,
+}) {
+  const { currentUser, role, roleBadgeColor } = useAuth();
 
   const initials = currentUser?.initials || 'U';
   const userName = currentUser?.name || 'Guest User';
   const userEmail = currentUser?.email || 'guest@flowboard.io';
   const avatarClass = currentUser?.avatarColor || 'purple';
+
+  const selectView = (view) => {
+    onViewChange(view);
+    setSidebarOpen(false);
+  };
 
   return (
     <>
@@ -51,15 +55,30 @@ function Sidebar({ sidebarOpen, setSidebarOpen, activeTaskCount }) {
         <nav aria-label="Workspace navigation">
           <span className="ws-label">Workspace</span>
 
-          <button className="selected">
+          <button
+            type="button"
+            className={activeView === 'overview' ? 'selected' : ''}
+            onClick={() => selectView('overview')}
+            aria-current={activeView === 'overview' ? 'page' : undefined}
+          >
             <NavIcon>⌂</NavIcon> Overview
           </button>
 
-          <button>
+          <button
+            type="button"
+            className={activeView === 'my-tasks' ? 'selected' : ''}
+            onClick={() => selectView('my-tasks')}
+            aria-current={activeView === 'my-tasks' ? 'page' : undefined}
+          >
             <NavIcon>▦</NavIcon> My tasks <small>{activeTaskCount}</small>
           </button>
 
-          <button>
+          <button
+            type="button"
+            className={activeView === 'activity' ? 'selected' : ''}
+            onClick={() => selectView('activity')}
+            aria-current={activeView === 'activity' ? 'page' : undefined}
+          >
             <NavIcon>◷</NavIcon> Activity
           </button>
 
@@ -67,7 +86,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, activeTaskCount }) {
             Projects <b>＋</b>
           </span>
 
-          <button className="project-link">
+          <button
+            type="button"
+            className="project-link"
+            onClick={() => selectView('overview')}
+          >
             <span className="project-badge">W</span>
             <span>
               Website redesign
@@ -76,65 +99,26 @@ function Sidebar({ sidebarOpen, setSidebarOpen, activeTaskCount }) {
           </button>
         </nav>
 
-        <div className="sidebar-help">
-          <span>?</span>
-          <div>
-            <strong>Need a hand?</strong>
-            <small>Visit the help center</small>
-          </div>
-        </div>
-
-        {/* User Profile & Clear Always-Visible Logout Button */}
-        <div className="ws-user-box" style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #eee' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '10px' }}>
+        <div className="ws-user-box">
+          <div className="ws-user-profile">
             <span className={`ws-avatar ${avatarClass}`}>
               {initials}
             </span>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <strong style={{ fontSize: '13px', color: '#1a202c', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div className="ws-user-details">
+              <div className="ws-user-heading">
+                <strong className="ws-user-name">
                   {userName}
                 </strong>
-                <span className={`role-tag ${roleBadgeColor}`} style={{ fontSize: '9px', padding: '1px 6px' }}>
+                <span className={`role-tag ${roleBadgeColor} ws-user-role`}>
                   {role}
                 </span>
               </div>
-              <small style={{ color: '#888f9c', fontSize: '11px', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <small className="ws-user-email">
                 {userEmail}
               </small>
             </div>
           </div>
 
-          {/* Direct 1-Click Logout Button */}
-          <button
-            onClick={handleLogout}
-            style={{
-              width: '100%',
-              height: '34px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              border: '1px solid #fed2d6',
-              borderRadius: '7px',
-              background: '#fff0f1',
-              color: '#c33e4d',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              transition: 'background 0.2s, border-color 0.2s',
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = '#fde2e4';
-              e.currentTarget.style.borderColor = '#f8b4bb';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = '#fff0f1';
-              e.currentTarget.style.borderColor = '#fed2d6';
-            }}
-          >
-            <span>🚪</span> Log out
-          </button>
         </div>
       </aside>
 

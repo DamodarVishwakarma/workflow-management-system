@@ -13,10 +13,13 @@
     z-index: 30;
     width: 248px;
     height: 100vh;
+    height: 100dvh;
+    min-height: 0;
     padding: 24px 16px 16px;
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--ws-border);
+    overflow: hidden;
     background: #fff
 }
 
@@ -54,9 +57,14 @@
 }
 
 .ws-sidebar nav {
+    min-height: 0;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    gap: 4px
+    gap: 4px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin
 }
 
 .ws-label {
@@ -189,38 +197,66 @@
     font-size: 9px
 }
 
-.sidebar-help {
-    margin-top: auto;
-    padding: 14px;
+.ws-user-box {
+    flex: 0 0 auto;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #eee
+}
+
+.ws-user-profile,
+.ws-user-heading {
     display: flex;
-    gap: 10px;
-    border-radius: 9px;
-    background: #f7f6fb
+    align-items: center
 }
 
-.sidebar-help>span {
-    width: 26px;
-    height: 26px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: #fff;
-    background: #7969d5
+.ws-user-profile {
+    gap: 9px;
+    margin-bottom: 10px
 }
 
-.sidebar-help strong,
-.sidebar-help small,
+.ws-user-details {
+    min-width: 0;
+    flex: 1
+}
+
+.ws-user-heading {
+    gap: 6px
+}
+
+.ws-user-name,
+.ws-user-email {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.ws-user-name {
+    color: #1a202c;
+    font-size: 13px
+}
+
+.ws-user-email {
+    color: #888f9c;
+    font-size: 11px
+}
+
+.ws-user-role {
+    flex: 0 0 auto;
+    padding: 1px 6px;
+    font-size: 9px
+}
+
 .ws-user strong,
 .ws-user small {
     display: block
 }
 
-.sidebar-help strong,
 .ws-user strong {
     font-size: 11px
 }
 
-.sidebar-help small,
 .ws-user small {
     margin-top: 3px;
     color: #9297a0;
@@ -520,14 +556,14 @@
     font-size: 10px
 }
 
-.kanban {
+.board-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(240px, 1fr));
     gap: 16px;
     align-items: start
 }
 
-.kanban-column {
+.board-column {
     min-height: 470px;
     padding: 12px;
     border: 1px solid #e8eaed;
@@ -535,7 +571,7 @@
     background: #f1f2f4
 }
 
-.kanban-title {
+.board-column-title {
     height: 33px;
     padding: 0 2px;
     display: flex;
@@ -547,31 +583,31 @@
     text-transform: uppercase
 }
 
-.kanban-title>span {
+.board-column-title>span {
     display: flex;
     align-items: center;
     gap: 7px
 }
 
-.kanban-title i {
+.board-column-title i {
     width: 7px;
     height: 7px;
     border-radius: 50%
 }
 
-.kanban-title i.neutral {
+.board-column-title i.neutral {
     background: #a2a7af
 }
 
-.kanban-title i.blue {
+.board-column-title i.blue {
     background: #6489d2
 }
 
-.kanban-title i.green {
+.board-column-title i.green {
     background: #55a171
 }
 
-.kanban-title b {
+.board-column-title b {
     margin-left: 8px;
     width: 18px;
     height: 18px;
@@ -582,19 +618,19 @@
     font-size: 8px
 }
 
-.kanban-title button {
+.board-column-title button {
     margin-left: auto;
     border: 0;
     background: none
 }
 
-.kanban-list {
+.board-task-list {
     display: flex;
     flex-direction: column;
     gap: 9px
 }
 
-.kanban-card {
+.board-task-card {
     position: relative;
     padding: 14px 14px 12px;
     border: 1px solid #e2e4e7;
@@ -604,7 +640,7 @@
     transition: .2s
 }
 
-.kanban-card:hover {
+.board-task-card:hover {
     transform: translateY(-2px);
     border-color: #d5d0ee;
     box-shadow: 0 8px 22px #29223e12
@@ -655,12 +691,12 @@
     background: none
 }
 
-.kanban-card h3 {
+.board-task-card h3 {
     margin: 12px 0 6px;
     font: 700 12px/1.45 Manrope, sans-serif
 }
 
-.kanban-card>p {
+.board-task-card>p {
     margin-bottom: 16px;
     color: #8a909a;
     font-size: 9px;
@@ -867,11 +903,11 @@
         margin-right: 12px
     }
 
-    .kanban {
+    .board-grid {
         overflow-x: auto
     }
 
-    .kanban-column {
+    .board-column {
         min-width: 280px
     }
 
@@ -931,7 +967,7 @@
         width: 100%
     }
 
-    .kanban {
+    .board-grid {
         margin-right: -16px;
         padding-right: 16px
     }
@@ -1004,21 +1040,10 @@
     font-size: 11px
 }
 
-.sidebar-help {
-    padding: 16px
-}
-
-.sidebar-help>span {
-    width: 30px;
-    height: 30px
-}
-
-.sidebar-help strong,
 .ws-user strong {
     font-size: 13px
 }
 
-.sidebar-help small,
 .ws-user small {
     font-size: 11px
 }
@@ -1130,42 +1155,42 @@
     font-size: 12px
 }
 
-.kanban {
+.board-grid {
     gap: 20px
 }
 
-.kanban-column {
+.board-column {
     min-height: 540px;
     padding: 15px;
     border-radius: 12px
 }
 
-.kanban-title {
+.board-column-title {
     height: 40px;
     padding: 0 3px;
     font-size: 11px
 }
 
-.kanban-title i {
+.board-column-title i {
     width: 8px;
     height: 8px
 }
 
-.kanban-title b {
+.board-column-title b {
     width: 22px;
     height: 22px;
     font-size: 10px
 }
 
-.kanban-title button {
+.board-column-title button {
     font-size: 18px
 }
 
-.kanban-list {
+.board-task-list {
     gap: 12px
 }
 
-.kanban-card {
+.board-task-card {
     padding: 18px 18px 15px;
     border-radius: 11px
 }
@@ -1179,13 +1204,13 @@
     font-size: 14px
 }
 
-.kanban-card h3 {
+.board-task-card h3 {
     margin: 15px 0 8px;
     font-size: 15px;
     line-height: 1.4
 }
 
-.kanban-card>p {
+.board-task-card>p {
     margin-bottom: 20px;
     color: #6f7783;
     font-size: 12px;
@@ -1275,15 +1300,15 @@
         padding-inline: 28px
     }
 
-    .kanban {
+    .board-grid {
         gap: 14px
     }
 
-    .kanban-column {
+    .board-column {
         padding: 12px
     }
 
-    .kanban-card {
+    .board-task-card {
         padding: 15px
     }
 
@@ -1306,7 +1331,7 @@
         padding-inline: 24px
     }
 
-    .kanban-column {
+    .board-column {
         min-width: 320px
     }
 }
@@ -1336,11 +1361,11 @@
         padding-block: 19px
     }
 
-    .kanban-column {
+    .board-column {
         min-width: 300px
     }
 
-    .kanban-card h3 {
+    .board-task-card h3 {
         font-size: 15px
     }
 
@@ -1483,53 +1508,53 @@
     font-weight: 700
 }
 
-.kanban {
+.board-grid {
     gap: 18px
 }
 
-.kanban-column {
+.board-column {
     border-color: #dfe2e7;
     background: #eef0f3;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65)
 }
 
-.kanban-title {
+.board-column-title {
     height: 44px;
     color: #545d69
 }
 
-.kanban-title b {
+.board-column-title b {
     color: #626a75;
     background: #dfe2e7
 }
 
-.kanban-title button {
+.board-column-title button {
     width: 28px;
     height: 28px;
     border-radius: 7px;
     color: #555e69
 }
 
-.kanban-title button:hover {
+.board-column-title button:hover {
     color: #5646bc;
     background: #e1ddf7
 }
 
-.kanban-card {
+.board-task-card {
     border-color: #dfe2e7;
     box-shadow: 0 2px 5px rgba(25, 33, 43, .06)
 }
 
-.kanban-card:hover {
+.board-task-card:hover {
     border-color: #bbb3e8;
     box-shadow: 0 10px 24px rgba(35, 29, 70, .1)
 }
 
-.kanban-card h3 {
+.board-task-card h3 {
     color: #202632
 }
 
-.kanban-card>p {
+.board-task-card>p {
     color: #68717e
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import '../workspace.css';
+import './WorkspacePage.css';
 import { seedTasks, columns } from '../data/initialTasks';
 import { getMyTasksCount, getRecentActivity } from '../data/workspaceSummary';
 import { useAuth } from '../context/AuthContext';
@@ -7,9 +7,11 @@ import Sidebar from '../components/workspace/Sidebar';
 import Topbar from '../components/workspace/Topbar';
 import BoardHeader from '../components/workspace/BoardHeader';
 import BoardFilters from '../components/workspace/BoardFilters';
-import KanbanColumn from '../components/workspace/KanbanColumn';
+import BoardColumn from '../components/workspace/BoardColumn';
 import TaskModal from '../components/workspace/TaskModal';
 import InviteModal from '../components/workspace/InviteModal';
+import MyTasksView from '../components/workspace/MyTasksView';
+import ActivityView from '../components/workspace/ActivityView';
 
 /**
  * 🎓 WorkspacePage Component (Connected with Auth, Roles & Invitations)
@@ -44,8 +46,10 @@ function WorkspacePage() {
   const [query, setQuery] = useState('');
   const [priority, setPriority] = useState('All');
   const [showForm, setShowForm] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeView, setActiveView] = useState('overview');
 
   // Sync tasks to localStorage
   useEffect(() => {
@@ -72,6 +76,10 @@ function WorkspacePage() {
   );
 
   const recentActivity = useMemo(() => getRecentActivity(tasks), [tasks]);
+  const myTasks = useMemo(
+    () => visibleTasks.filter((task) => task.assignee === userInitials),
+    [visibleTasks, userInitials]
+  );
 
   // Handler: Add a new task (auto-assigned to current user)
   const handleCreateTask = (event) => {
@@ -97,6 +105,54 @@ function WorkspacePage() {
     setShowForm(false);
   };
 
+  const handleUpdateTask = (event) => {
+    event.preventDefault();
+    if (!canMoveTask || !editingTask) return;
+
+    const form = new FormData(event.currentTarget);
+    const updates = {
+      title: form.get('title').trim(),
+      description: form.get('description').trim(),
+      status: form.get('status'),
+      priority: form.get('priority'),
+      type: form.get('type'),
+    };
+
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === editingTask.id ? { ...task, ...updates } : task
+      )
+    );
+    setEditingTask(null);
+    setShowForm(false);
+  };
+
+  const handleEditTask = (task) => {
+    setEditingTask(task);
+    setShowForm(true);
+  };
+
+  const handleDeleteTask = (task) => {
+    if (!canMoveTask) return;
+
+    const shouldDelete = window.confirm(
+      `Delete “${task.title}”? This action cannot be undone.`
+    );
+    if (shouldDelete) {
+      setTasks((currentTasks) => currentTasks.filter(({ id }) => id !== task.id));
+    }
+  };
+
+  const openCreateTask = () => {
+    setEditingTask(null);
+    setShowForm(true);
+  };
+
+  const closeTaskModal = () => {
+    setEditingTask(null);
+    setShowForm(false);
+  };
+
   // Handler: Move a task to a different status column
   const handleMoveTask = (id, newStatus) => {
     if (!canMoveTask) return;
@@ -115,14 +171,14 @@ function WorkspacePage() {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         activeTaskCount={activeUserTasksCount}
+        activeView={activeView}
+        onViewChange={setActiveView}
       />
 
       {/* Main Workspace Area */}
       <div className="ws-main">
         {/* Top Navigation Bar */}
         <Topbar
-          query={query}
-          setQuery={setQuery}
           onOpenSidebar={() => setSidebarOpen(true)}
         />
 
@@ -137,50 +193,70 @@ function WorkspacePage() {
             </div>
           )}
 
-          {/* Breadcrumbs & Project Heading */}
-          <BoardHeader
-            onOpenCreateModal={() => setShowForm(true)}
-            onOpenInviteModal={() => setShowInviteModal(true)}
-            canCreateTask={canCreateTask}
-            canInvite={canInvite}
-          />
+          {activeView === 'overview' && (
+            <>
+              <BoardHeader
+                onOpenCreateModal={openCreateTask}
+                onOpenInviteModal={() => setShowInviteModal(true)}
+                canCreateTask={canCreateTask}
+                canInvite={canInvite}
+              />
 
-          {/* Search & Filter Toolbar */}
-          <BoardFilters
-            query={query}
-            setQuery={setQuery}
-            priority={priority}
-            setPriority={setPriority}
-            taskCount={visibleTasks.length}
-          />
+              <BoardFilters
+                query={query}
+                setQuery={setQuery}
+                priority={priority}
+                setPriority={setPriority}
+                taskCount={visibleTasks.length}
+              />
 
-          {/* Kanban Columns Grid */}
-          <section className="kanban" aria-label="Project board">
-            {columns.map((column) => {
-              const columnTasks = visibleTasks.filter(
-                (task) => task.status === column.id
-              );
-              return (
-                <KanbanColumn
-                  key={column.id}
-                  column={column}
-                  tasks={columnTasks}
-                  onMoveTask={handleMoveTask}
-                  onOpenCreateModal={() => setShowForm(true)}
-                  canCreateTask={canCreateTask}
-                  canMoveTask={canMoveTask}
-                />
-              );
-            })}
-          </section>
+              <section className="board-grid" aria-label="Project board">
+                {columns.map((column) => {
+                  const columnTasks = visibleTasks.filter(
+                    (task) => task.status === column.id
+                  );
+                  return (
+                    <BoardColumn
+                      key={column.id}
+                      column={column}
+                      tasks={columnTasks}
+                      onMoveTask={handleMoveTask}
+                      onOpenCreateModal={openCreateTask}
+                      onEditTask={handleEditTask}
+                      onDeleteTask={handleDeleteTask}
+                      canCreateTask={canCreateTask}
+                      canMoveTask={canMoveTask}
+                    />
+                  );
+                })}
+              </section>
+            </>
+          )}
+
+          {activeView === 'my-tasks' && (
+            <MyTasksView
+              tasks={myTasks}
+              userName={currentUser?.name || 'you'}
+              onMoveTask={handleMoveTask}
+              onEditTask={handleEditTask}
+              onDeleteTask={handleDeleteTask}
+              canMoveTask={canMoveTask}
+            />
+          )}
+
+          {activeView === 'activity' && (
+            <ActivityView tasks={recentActivity} />
+          )}
         </main>
       </div>
 
       {/* "Create a task" Modal Dialog (Available if permitted) */}
       {showForm && canCreateTask && (
         <TaskModal
-          onClose={() => setShowForm(false)}
+          task={editingTask}
+          onClose={closeTaskModal}
           onCreateTask={handleCreateTask}
+          onUpdateTask={handleUpdateTask}
         />
       )}
 

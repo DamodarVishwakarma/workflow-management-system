@@ -51,7 +51,7 @@ export const seedTasks = [
 ];
 
 /**
- * Kanban board columns configuration.
+ * Workflow board columns configuration.
  * Each column has a unique 'id' that matches the task 'status' ('todo', 'progress', or 'done').
  */
 export const columns = [

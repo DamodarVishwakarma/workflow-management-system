@@ -25,6 +25,5 @@ export function getRecentActivity(tasks) {
       assignee: task.assignee,
       priority: task.priority,
       type: task.type,
-    }))
-    .slice(0, 3);
+    }));
 }

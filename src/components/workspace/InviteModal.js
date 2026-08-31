@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { ROLES, ROLE_PERMISSIONS } from '../../data/initialUsers';
+import './InviteModal.css';
 
 /**
  * 🎓 InviteModal Component
@@ -67,15 +68,10 @@ function InviteModal({ onClose }) {
             <p>Assign a predefined role and generate an invitation link</p>
           </div>
           <button
+            type="button"
+            className="invite-modal-close"
             onClick={onClose}
             aria-label="Close"
-            style={{
-              background: 'none',
-              border: 0,
-              fontSize: '22px',
-              cursor: 'pointer',
-              color: '#88909d',
-            }}
           >
             ×
           </button>
@@ -83,14 +79,14 @@ function InviteModal({ onClose }) {
 
         <div className="invite-modal-body">
           {error && (
-            <div className="auth-error" role="alert" style={{ marginBottom: '16px' }}>
+            <div className="auth-error invite-modal-error" role="alert">
               <span>⚠️</span> {error}
             </div>
           )}
 
           {/* Invitation Form */}
           <form onSubmit={handleSendInvite}>
-            <div className="form-group" style={{ marginBottom: '14px' }}>
+            <div className="form-group invite-email-field">
               <label htmlFor="invite-email">Recipient Email Address</label>
               <input
                 id="invite-email"
@@ -103,7 +99,7 @@ function InviteModal({ onClose }) {
               />
             </div>
 
-            <div className="form-group" style={{ marginBottom: '16px' }}>
+            <div className="form-group invite-role-field">
               <label htmlFor="invite-role">Assign Role (Enforced on Signup)</label>
               <select
                 id="invite-role"
@@ -119,8 +115,7 @@ function InviteModal({ onClose }) {
 
             <button
               type="submit"
-              className="auth-submit-btn"
-              style={{ marginTop: '4px', height: '40px', fontSize: '13px' }}
+              className="auth-submit-btn invite-submit-button"
             >
               Generate Invite Link
             </button>
@@ -146,11 +141,11 @@ function InviteModal({ onClose }) {
           )}
 
           {/* Pending Invitations List */}
-          <div style={{ marginTop: '24px', borderTop: '1px solid #edf0f5', paddingTop: '16px' }}>
-            <h4 style={{ margin: '0 0 10px', fontSize: '12px', color: '#718096', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div className="invitation-list-section">
+            <h4 className="invitation-list-title">
               Workspace Invitations
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '160px', overflowY: 'auto' }}>
+            <div className="invitation-list">
               {invitations.map((inv) => {
                 const badgeClass = ROLE_PERMISSIONS[inv.role]?.badgeColor || 'purple';
                 const invUrl = `${window.location.origin}${window.location.pathname}#/signup?invite=${inv.token}`;
@@ -158,43 +153,26 @@ function InviteModal({ onClose }) {
                 return (
                   <div
                     key={inv.id}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '8px 10px',
-                      background: '#f8fafc',
-                      borderRadius: '6px',
-                      border: '1px solid #e2e8f0',
-                      fontSize: '12px',
-                    }}
+                    className="invitation-list-item"
                   >
                     <div>
-                      <strong style={{ color: '#2d3748', display: 'block' }}>{inv.email}</strong>
-                      <small style={{ color: '#a0aec0' }}>
-                        Status: <span style={{ color: inv.status === 'accepted' ? '#38a169' : '#d69e2e', fontWeight: 600 }}>{inv.status}</span>
+                      <strong className="invitation-email">{inv.email}</strong>
+                      <small className="invitation-status-label">
+                        Status: <span className={`invitation-status ${inv.status}`}>{inv.status}</span>
                       </small>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div className="invitation-actions">
                       <span className={`role-tag ${badgeClass}`}>
                         {inv.role}
                       </span>
                       {inv.status === 'pending' && (
                         <button
                           type="button"
+                          className="invitation-copy-button"
                           onClick={() => {
                             navigator.clipboard.writeText(invUrl);
                             alert('Invitation link copied to clipboard!');
-                          }}
-                          style={{
-                            padding: '3px 8px',
-                            borderRadius: '4px',
-                            background: '#edf2f7',
-                            border: '1px solid #cbd5e0',
-                            fontSize: '10px',
-                            fontWeight: 700,
-                            cursor: 'pointer',
                           }}
                         >
                           Copy Link

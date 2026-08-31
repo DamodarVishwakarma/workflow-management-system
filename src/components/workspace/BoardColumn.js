@@ -1,8 +1,9 @@
 import React from 'react';
-import KanbanCard from './KanbanCard';
+import TaskCard from './TaskCard';
+import './BoardColumn.css';
 
 /**
- * KanbanColumn Component
+ * BoardColumn component
  * 
  * Renders a column on the board with its title, task count, and task cards.
  * 
@@ -14,18 +15,20 @@ import KanbanCard from './KanbanCard';
  * - canCreateTask: Boolean permission for task creation
  * - canMoveTask: Boolean permission for moving tasks
  */
-function KanbanColumn({
+function BoardColumn({
   column,
   tasks,
   onMoveTask,
   onOpenCreateModal,
+  onEditTask,
+  onDeleteTask,
   canCreateTask = true,
   canMoveTask = true,
 }) {
   return (
-    <div className="kanban-column">
+    <div className="board-column">
       {/* Column Title Header */}
-      <div className="kanban-title">
+      <div className="board-column-title">
         <span>
           <i className={column.tone} />
           {column.label}
@@ -42,12 +45,14 @@ function KanbanColumn({
       </div>
 
       {/* List of Task Cards in this Column */}
-      <div className="kanban-list">
+      <div className="board-task-list">
         {tasks.map((task) => (
-          <KanbanCard
+          <TaskCard
             key={task.id}
             task={task}
             onMoveTask={onMoveTask}
+            onEditTask={onEditTask}
+            onDeleteTask={onDeleteTask}
             canMoveTask={canMoveTask}
           />
         ))}
@@ -60,16 +65,7 @@ function KanbanColumn({
         )}
 
         {tasks.length === 0 && !canCreateTask && (
-          <div
-            style={{
-              padding: '24px 10px',
-              textAlign: 'center',
-              color: '#9aa0ac',
-              fontSize: '11px',
-              border: '1px dashed #d5d8de',
-              borderRadius: '8px',
-            }}
-          >
+          <div className="empty-column-message">
             No tasks in {column.label}
           </div>
         )}
@@ -78,4 +74,4 @@ function KanbanColumn({
   );
 }
 
-export default KanbanColumn;
+export default BoardColumn;

@@ -3,6 +3,7 @@ import Logo from '../common/Logo';
 import Icon from '../common/Icon';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from '../../router';
+import './Navbar.css';
 
 /**
  * Main navigation bar for the landing page.
@@ -29,25 +30,16 @@ function Navbar() {
           <a href="#about">About</a>
         </div>
 
-        <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="nav-actions">
           {isAuthenticated ? (
             <>
               <a className="button small" href="#app">
                 Workspace ({currentUser?.initials || 'User'})
               </a>
               <button
+                type="button"
+                className="nav-logout-button"
                 onClick={handleLogout}
-                style={{
-                  height: '34px',
-                  padding: '0 12px',
-                  border: '1px solid #fed2d6',
-                  borderRadius: '6px',
-                  background: '#fff0f1',
-                  color: '#c33e4d',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
               >
                 Log out
               </button>

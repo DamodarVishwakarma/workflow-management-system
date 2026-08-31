@@ -33,7 +33,7 @@ The first release will prove the central workflow: create a project, add issues,
 - Title, description, status, priority, assignee, and due date
 - Human-readable issue keys such as `WEB-12`
 
-### 4. Kanban board
+### 4. Workflow board
 
 - Columns: To Do, In Progress, and Done
 - Drag issues between columns

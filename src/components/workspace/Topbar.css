@@ -1,0 +1,113 @@
+.profile-menu {
+  position: relative;
+  margin-left: auto;
+}
+
+.profile-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 6px;
+  border: 1px solid #dfe2e8;
+  border-radius: 24px;
+  background: #f4f5f8;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+
+.profile-menu-trigger.is-open {
+  border-color: #6957d9;
+  background: #eee9fc;
+}
+
+.profile-menu-avatar {
+  width: 26px;
+  height: 26px;
+  font-size: 10px;
+}
+
+.profile-menu-name {
+  color: #1e2430;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.profile-menu-role {
+  padding: 2px 7px;
+  font-size: 10px;
+}
+
+.profile-menu-chevron {
+  margin-left: 2px;
+  color: #8c93a0;
+  font-size: 10px;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 230px;
+  padding: 14px;
+  border: 1px solid #e1e4ea;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(25, 33, 43, .12);
+}
+
+.profile-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.profile-dropdown-avatar {
+  width: 36px;
+  height: 36px;
+  font-size: 12px;
+}
+
+.profile-dropdown-identity {
+  overflow: hidden;
+}
+
+.profile-dropdown-name {
+  color: #1a202c;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.profile-dropdown-email {
+  overflow: hidden;
+  color: #7a828e;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-logout-button {
+  width: 100%;
+  height: 34px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #fed2d6;
+  border-radius: 6px;
+  background: #fff0f1;
+  color: #c33e4d;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s;
+}
+
+.profile-logout-button:hover {
+  border-color: #f8b4bb;
+  background: #fde2e4;
+}

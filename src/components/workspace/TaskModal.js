@@ -3,13 +3,14 @@ import React from 'react';
 /**
  * TaskModal Component
  * 
- * A dialog form popup to create and add a new task to the board.
+ * A dialog form used to create or edit a task.
  * 
  * Props:
  * - onClose: Function to close the modal dialog.
  * - onCreateTask: Form submit handler function.
  */
-function TaskModal({ onClose, onCreateTask }) {
+function TaskModal({ onClose, onCreateTask, onUpdateTask, task = null }) {
+  const isEditing = Boolean(task);
   // Close modal if user clicks on the outer dark backdrop
   const handleBackdropClick = (event) => {
     if (event.target === event.currentTarget) {
@@ -27,15 +28,15 @@ function TaskModal({ onClose, onCreateTask }) {
         className="task-modal"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="new-task-title"
+        aria-labelledby="task-modal-title"
       >
         {/* Modal Header */}
         <div className="modal-head">
           <div>
             <span className="modal-icon">✓</span>
             <div>
-              <h2 id="new-task-title">Create a task</h2>
-              <p>Add a clear, actionable item to your board.</p>
+              <h2 id="task-modal-title">{isEditing ? 'Edit task' : 'Create a task'}</h2>
+              <p>{isEditing ? 'Update this task’s details.' : 'Add a clear, actionable item to your board.'}</p>
             </div>
           </div>
           <button onClick={onClose} aria-label="Close">
@@ -44,7 +45,7 @@ function TaskModal({ onClose, onCreateTask }) {
         </div>
 
         {/* Modal Form */}
-        <form onSubmit={onCreateTask}>
+        <form onSubmit={isEditing ? onUpdateTask : onCreateTask}>
           <label>
             Task title
             <input
@@ -52,6 +53,7 @@ function TaskModal({ onClose, onCreateTask }) {
               required
               autoFocus
               maxLength="80"
+              defaultValue={task?.title || ''}
               placeholder="What needs to be done?"
             />
           </label>
@@ -61,6 +63,7 @@ function TaskModal({ onClose, onCreateTask }) {
             <textarea
               name="description"
               rows="3"
+              defaultValue={task?.description || ''}
               placeholder="Add useful context for your team"
             />
           </label>
@@ -68,18 +71,19 @@ function TaskModal({ onClose, onCreateTask }) {
           <div className="form-grid">
             <label>
               Type
-              <select name="type">
+              <select name="type" defaultValue={task?.type || 'Task'}>
                 <option>Task</option>
                 <option>Design</option>
                 <option>Development</option>
                 <option>Research</option>
                 <option>Content</option>
+                <option>Planning</option>
               </select>
             </label>
 
             <label>
               Priority
-              <select name="priority">
+              <select name="priority" defaultValue={task?.priority || 'Medium'}>
                 <option>Medium</option>
                 <option>High</option>
                 <option>Low</option>
@@ -88,7 +92,7 @@ function TaskModal({ onClose, onCreateTask }) {
 
             <label>
               Status
-              <select name="status">
+              <select name="status" defaultValue={task?.status || 'todo'}>
                 <option value="todo">To do</option>
                 <option value="progress">In progress</option>
                 <option value="done">Done</option>
@@ -101,7 +105,7 @@ function TaskModal({ onClose, onCreateTask }) {
               Cancel
             </button>
             <button className="primary" type="submit">
-              Create task
+              {isEditing ? 'Save changes' : 'Create task'}
             </button>
           </div>
         </form>

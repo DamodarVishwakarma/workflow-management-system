@@ -29,7 +29,13 @@ export function AuthProvider({ children }) {
   const [users, setUsers] = useState(() => {
     try {
       const stored = localStorage.getItem('flowboard-users');
-      return stored ? JSON.parse(stored) : seedUsers;
+      if (!stored) return seedUsers;
+
+      const storedUsers = JSON.parse(stored);
+      const storedIds = new Set(storedUsers.map((user) => user.id));
+      const missingSeedUsers = seedUsers.filter((user) => !storedIds.has(user.id));
+
+      return [...storedUsers, ...missingSeedUsers];
     } catch {
       return seedUsers;
     }

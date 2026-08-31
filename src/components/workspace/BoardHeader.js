@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
+import './BoardHeader.css';
 
 /**
  * BoardHeader Component
@@ -47,7 +48,7 @@ function BoardHeader({
             {visibleMembers.map((member) => (
               <i
                 key={member.id}
-                style={{ background: member.avatarColor || '#9176b0' }}
+                className={`member-avatar ${member.avatarColor || 'purple'}`}
               >
                 {member.initials || member.name?.slice(0, 2).toUpperCase()}
               </i>

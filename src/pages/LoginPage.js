@@ -3,13 +3,14 @@ import '../auth.css';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from '../router';
 import Logo from '../components/common/Logo';
+import './AuthSession.css';
 
 /**
  * 🎓 LoginPage Component
  * 
  * Clean, standard authentication:
  * - Enter registered email & password to sign in.
- * - Redirects directly to the Kanban Workspace (`/app`).
+ * - Redirects directly to the workflow workspace (`/app`).
  */
 function LoginPage() {
   const { login, currentUser, logout, isAuthenticated } = useAuth();
@@ -49,50 +50,22 @@ function LoginPage() {
 
         {/* If user is already signed in */}
         {isAuthenticated && currentUser && (
-          <div
-            style={{
-              marginBottom: '20px',
-              padding: '12px 14px',
-              borderRadius: '8px',
-              background: '#f0edfc',
-              border: '1px solid #d5cff7',
-              fontSize: '13px',
-              color: '#4937a8',
-            }}
-          >
-            <div style={{ marginBottom: '8px' }}>
+          <div className="active-session-notice">
+            <div className="active-session-message">
               Currently signed in as <strong>{currentUser.name}</strong> ({currentUser.role}).
             </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div className="active-session-actions">
               <button
                 type="button"
+                className="active-session-open"
                 onClick={() => navigate('/app')}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  background: '#6957d9',
-                  color: '#fff',
-                  border: 0,
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
               >
                 Go to Workspace
               </button>
               <button
                 type="button"
+                className="active-session-logout"
                 onClick={logout}
-                style={{
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  background: '#fff',
-                  color: '#c33e4d',
-                  border: '1px solid #fed2d6',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
               >
                 Log out
               </button>

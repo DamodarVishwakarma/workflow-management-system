@@ -42,7 +42,7 @@ function PreviewColumn({ title, color, children }) {
 
 /**
  * Hero section of the landing page.
- * Displays heading, call-to-actions, and an interactive mockup preview of the Kanban board.
+ * Displays heading, call-to-actions, and an interactive workflow board preview.
  */
 function HeroSection() {
   const { isAuthenticated } = useAuth();

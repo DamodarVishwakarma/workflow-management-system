@@ -46,6 +46,16 @@ export const seedUsers = [
     avatarColor: 'green',
     title: 'Stakeholder / Client',
   },
+  {
+    id: 'usr-5',
+    name: 'Katherine Scott',
+    email: 'katherine@flowboard.io',
+    password: 'password123',
+    role: 'Member',
+    initials: 'KS',
+    avatarColor: 'purple',
+    title: 'UX Researcher',
+  },
 ];
 
 /**

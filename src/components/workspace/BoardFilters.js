@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * BoardFilters Component
  * 
- * Provides local search and priority filter controls for the Kanban board.
+ * Provides local search and priority filter controls for the workflow board.
  * 
  * Props:
  * - query: Search string input.
