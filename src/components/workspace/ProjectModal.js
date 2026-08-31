@@ -1,4 +1,3 @@
-import React from 'react';
 import './ProjectModal.css';
 
 function ProjectModal({ onClose, onCreateProject }) {

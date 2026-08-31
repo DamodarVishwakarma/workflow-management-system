@@ -1,4 +1,3 @@
-import React from 'react';
 
 /**
  * 3-step workflow section showing how teams use FlowBoard.

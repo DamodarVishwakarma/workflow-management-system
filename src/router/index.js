@@ -52,7 +52,7 @@ export function HashRouter({ children }) {
     if (target.startsWith('/')) {
       target = target.slice(1);
     }
-    window.location.hash = target === '' ? 'top' : target;
+    window.location.hash = target === '' ? '/' : target;
   };
 
   const contextValue = {
@@ -81,10 +81,9 @@ export function Routes({ children }) {
       const { path, element } = child.props;
 
       const isDirectMatch = path === currentPath;
-      const isRootMatch = path === '/' && (currentPath === '/' || currentPath === '/top');
       const isWildcard = path === '*';
 
-      if (isDirectMatch || isRootMatch || isWildcard) {
+      if (isDirectMatch || isWildcard) {
         matchedElement = element;
       }
     }

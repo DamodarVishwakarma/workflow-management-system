@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { seedUsers, ROLE_PERMISSIONS, ROLES } from '../data/initialUsers';
 import { seedInvitations } from '../data/initialInvitations';
 

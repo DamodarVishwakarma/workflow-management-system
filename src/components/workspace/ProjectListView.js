@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { resolveAssignee } from '../../data/userProfiles';
 import Icon from '../common/Icon';

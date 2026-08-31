@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from '../../router';
 
 /**
  * Helper component for displaying icons in the navigation list.
@@ -46,14 +46,14 @@ function Sidebar({
   return (
     <>
       <aside className={`ws-sidebar${sidebarOpen ? ' open' : ''}`}>
-        <a className="ws-brand" href="#top">
+        <Link className="ws-brand" to="/">
           <span className="ws-logo">
             <i />
             <i />
             <i />
           </span>
           FlowBoard
-        </a>
+        </Link>
 
         <nav aria-label="Workspace navigation">
           <span className="ws-label">Workspace</span>

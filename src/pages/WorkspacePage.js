@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './WorkspacePage.css';
 import { seedTasks, columns } from '../data/initialTasks';
 import { DEFAULT_PROJECT_ID, seedProjects } from '../data/initialProjects';

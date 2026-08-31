@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './AuthPages.css';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link, useSearchParams } from '../router';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { columns } from '../../data/initialTasks';
 import { useAuth } from '../../context/AuthContext';
 import { resolveAssignee } from '../../data/userProfiles';

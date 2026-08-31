@@ -1,4 +1,3 @@
-import React from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { HashRouter as Router, Routes, Route } from './router';
 import LandingPage from './pages/LandingPage';
@@ -29,7 +28,6 @@ function App() {
         <Routes>
           {/* Public Marketing Landing Page */}
           <Route path="/" element={<LandingPage />} />
-          <Route path="/top" element={<LandingPage />} />
 
           {/* Authentication Routes */}
           <Route path="/login" element={<LoginPage />} />

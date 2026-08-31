@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { ROLES, ROLE_PERMISSIONS } from '../../data/initialUsers';
 import './InviteModal.css';
@@ -12,7 +12,7 @@ import './InviteModal.css';
  * - VIEWER: Read-only Stakeholder
  */
 function InviteModal({ onClose }) {
-  const { createInvitation, invitations, currentUser, isOwner } = useAuth();
+  const { createInvitation, invitations, isOwner } = useAuth();
 
   const [email, setEmail] = useState('');
   const [role, setRole] = useState(ROLES.MEMBER);

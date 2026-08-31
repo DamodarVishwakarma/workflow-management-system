@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '../components/landing/Navbar';
 import HeroSection from '../components/landing/HeroSection';
 import TrustSection from '../components/landing/TrustSection';

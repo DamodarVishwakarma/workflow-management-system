@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from '../../router';
 
 /**
  * Reusable FlowBoard brand logo component.
@@ -6,14 +6,14 @@ import React from 'react';
  */
 function Logo() {
   return (
-    <a className="brand" href="#top" aria-label="FlowBoard home">
+    <Link className="brand" to="/" aria-label="FlowBoard home">
       <span className="brand-mark">
         <i />
         <i />
         <i />
       </span>
       <span>FlowBoard</span>
-    </a>
+    </Link>
   );
 }
 
