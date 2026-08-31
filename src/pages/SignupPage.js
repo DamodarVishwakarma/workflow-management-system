@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import '../auth.css';
+import './AuthPages.css';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link, useSearchParams } from '../router';
 import Logo from '../components/common/Logo';
-import './AuthSession.css';
 import { ROLE_PERMISSIONS } from '../data/initialUsers';
 
 /**

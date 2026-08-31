@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import '../auth.css';
+import './AuthPages.css';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from '../router';
 import Logo from '../components/common/Logo';
-import './AuthSession.css';
 
 /**
  * 🎓 LoginPage Component
