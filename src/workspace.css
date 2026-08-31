@@ -1,0 +1,1732 @@
+.workspace {
+    --ws-purple: #6957d9;
+    --ws-border: #e5e7eb;
+    min-height: 100vh;
+    display: flex;
+    background: #f7f8fa;
+    color: #202632
+}
+
+.ws-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 30;
+    width: 248px;
+    height: 100vh;
+    padding: 24px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--ws-border);
+    background: #fff
+}
+
+.ws-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px 25px;
+    font: 800 19px Manrope, sans-serif
+}
+
+.ws-logo {
+    width: 24px;
+    height: 22px;
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    transform: skew(-8deg)
+}
+
+.ws-logo i {
+    width: 6px;
+    height: 11px;
+    border-radius: 2px;
+    background: var(--ws-purple)
+}
+
+.ws-logo i:nth-child(2) {
+    height: 19px
+}
+
+.ws-logo i:nth-child(3) {
+    height: 15px;
+    opacity: .72
+}
+
+.ws-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+}
+
+.ws-label {
+    padding: 12px 11px 7px;
+    color: #9a9fa9;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .11em;
+    text-transform: uppercase
+}
+
+.ws-label b {
+    float: right;
+    font-size: 15px
+}
+
+.project-label {
+    margin-top: 15px
+}
+
+.ws-sidebar nav button {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #59616e;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600
+}
+
+.ws-sidebar nav button:hover,
+.ws-sidebar nav button.selected {
+    color: #5d4bc4;
+    background: #f0edfc
+}
+
+.ws-sidebar nav button>small {
+    margin-left: auto;
+    width: 21px;
+    height: 19px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    color: #6b5bc4;
+    background: #e7e2fb;
+    font-size: 9px
+}
+
+.sidebar-activity-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 4px 0 12px;
+    padding: 0 4px;
+}
+
+.sidebar-activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 8px 8px;
+    border: 1px solid #edf0f5;
+    border-radius: 10px;
+    background: #fafbff;
+}
+
+.sidebar-activity-item strong {
+    display: block;
+    color: #2a3140;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.sidebar-activity-item small {
+    display: block;
+    margin-top: 3px;
+    color: #8d95a2;
+    font-size: 9px;
+}
+
+.activity-dot {
+    width: 8px;
+    height: 8px;
+    margin-top: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.activity-dot.todo {
+    background: #8b8b8b;
+}
+
+.activity-dot.progress {
+    background: #7064d9;
+}
+
+.activity-dot.done {
+    background: #38b27a;
+}
+
+.ws-nav-icon {
+    width: 20px;
+    text-align: center
+}
+
+.project-badge {
+    width: 27px;
+    height: 27px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    color: #fff;
+    background: linear-gradient(135deg, #7463de, #5948bc)
+}
+
+.project-link>span:last-child {
+    display: flex;
+    flex-direction: column
+}
+
+.project-link small {
+    margin-top: 2px;
+    color: #a0a5ae;
+    font-size: 9px
+}
+
+.sidebar-help {
+    margin-top: auto;
+    padding: 14px;
+    display: flex;
+    gap: 10px;
+    border-radius: 9px;
+    background: #f7f6fb
+}
+
+.sidebar-help>span {
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    background: #7969d5
+}
+
+.sidebar-help strong,
+.sidebar-help small,
+.ws-user strong,
+.ws-user small {
+    display: block
+}
+
+.sidebar-help strong,
+.ws-user strong {
+    font-size: 11px
+}
+
+.sidebar-help small,
+.ws-user small {
+    margin-top: 3px;
+    color: #9297a0;
+    font-size: 9px
+}
+
+.ws-user {
+    margin-top: 14px;
+    padding: 14px 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-top: 1px solid #eee
+}
+
+.ws-avatar {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border-radius: 50%;
+    color: #fff;
+    background: #9a78b8;
+    font-size: 9px;
+    font-weight: 800
+}
+
+.ws-user button {
+    margin-left: auto;
+    border: 0;
+    background: none
+}
+
+.ws-main {
+    width: calc(100% - 248px);
+    margin-left: 248px;
+    min-width: 0
+}
+
+.ws-topbar {
+    height: 66px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--ws-border);
+    background: #fff
+}
+
+.global-search,
+.local-search {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #969ca6
+}
+
+.global-search input,
+.local-search input {
+    border: 0;
+    outline: 0;
+    background: transparent
+}
+
+.global-search input {
+    width: 240px
+}
+
+.global-search kbd {
+    padding: 3px 7px;
+    border: 1px solid #e2e4e7;
+    border-radius: 4px;
+    color: #999;
+    font-size: 9px
+}
+
+.top-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 9px
+}
+
+.top-actions button {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent
+}
+
+.top-actions button:hover {
+    background: #f2f2f5
+}
+
+.top-actions button i {
+    position: absolute;
+    right: 7px;
+    top: 6px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #e25e69
+}
+
+.mobile-menu {
+    display: none;
+    border: 0;
+    background: none;
+    font-size: 20px
+}
+
+.workspace-content {
+    padding: 28px 32px 55px
+}
+
+.breadcrumbs {
+    display: flex;
+    gap: 8px;
+    color: #9a9fa8;
+    font-size: 11px
+}
+
+.project-heading {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 9px
+}
+
+.title-row h1 {
+    margin: 0;
+    font-size: 27px;
+    letter-spacing: -1.2px
+}
+
+.title-row button {
+    border: 0;
+    background: none;
+    color: #9499a2;
+    font-size: 22px
+}
+
+.project-heading p {
+    margin: 8px 0 0;
+    color: #747b86;
+    font-size: 13px
+}
+
+.heading-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px
+}
+
+.member-stack {
+    display: flex;
+    margin-right: 7px
+}
+
+.member-stack i {
+    width: 29px;
+    height: 29px;
+    margin-left: -7px;
+    display: grid;
+    place-items: center;
+    border: 2px solid #f7f8fa;
+    border-radius: 50%;
+    color: #fff;
+    background: #9176b0;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700
+}
+
+.member-stack i:first-child {
+    margin-left: 0
+}
+
+.member-stack i:nth-child(2) {
+    background: #6685b3
+}
+
+.member-stack i:nth-child(3) {
+    background: #6d927b
+}
+
+.member-stack .member-overflow {
+    color: #707680;
+    background: #e5e7ea
+}
+
+.heading-actions button,
+.modal-actions button {
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 700
+}
+
+.secondary {
+    border: 1px solid #dadde1;
+    background: #fff
+}
+
+.primary {
+    border: 1px solid var(--ws-purple);
+    color: #fff;
+    background: var(--ws-purple)
+}
+
+.view-tabs {
+    height: 51px;
+    margin-top: 25px;
+    display: flex;
+    align-items: flex-end;
+    gap: 28px;
+    border-bottom: 1px solid #dde0e4
+}
+
+.view-tabs button {
+    height: 100%;
+    padding: 0 2px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: #7c838e;
+    font-size: 12px;
+    font-weight: 600
+}
+
+.view-tabs button.active {
+    border-color: var(--ws-purple);
+    color: #5747bc
+}
+
+.view-tabs button span {
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    background: #eeeafa;
+    font-size: 7px
+}
+
+.view-tabs .more {
+    margin-left: auto;
+    padding-bottom: 10px;
+    border-bottom: none;
+    color: #76808a;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.board-tools {
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 9px
+}
+
+.local-search {
+    width: 220px;
+    height: 36px;
+    padding: 0 11px;
+    border: 1px solid #dfe1e5;
+    border-radius: 7px;
+    background: #fff
+}
+
+.local-search input {
+    width: 100%;
+    font-size: 11px
+}
+
+.board-tools select,
+.board-tools>button {
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid #dfe1e5;
+    border-radius: 7px;
+    color: #636a75;
+    background: #fff;
+    font-size: 10px
+}
+
+.task-total {
+    margin-left: auto;
+    color: #8a909a;
+    font-size: 10px
+}
+
+.kanban {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 16px;
+    align-items: start
+}
+
+.kanban-column {
+    min-height: 470px;
+    padding: 12px;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    background: #f1f2f4
+}
+
+.kanban-title {
+    height: 33px;
+    padding: 0 2px;
+    display: flex;
+    align-items: center;
+    color: #69717c;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    text-transform: uppercase
+}
+
+.kanban-title>span {
+    display: flex;
+    align-items: center;
+    gap: 7px
+}
+
+.kanban-title i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%
+}
+
+.kanban-title i.neutral {
+    background: #a2a7af
+}
+
+.kanban-title i.blue {
+    background: #6489d2
+}
+
+.kanban-title i.green {
+    background: #55a171
+}
+
+.kanban-title b {
+    margin-left: 8px;
+    width: 18px;
+    height: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+    background: #e0e2e5;
+    font-size: 8px
+}
+
+.kanban-title button {
+    margin-left: auto;
+    border: 0;
+    background: none
+}
+
+.kanban-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px
+}
+
+.kanban-card {
+    position: relative;
+    padding: 14px 14px 12px;
+    border: 1px solid #e2e4e7;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 2px 7px #2026340a;
+    transition: .2s
+}
+
+.kanban-card:hover {
+    transform: translateY(-2px);
+    border-color: #d5d0ee;
+    box-shadow: 0 8px 22px #29223e12
+}
+
+.card-label,
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.card-label>span {
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 7px;
+    font-weight: 800
+}
+
+.type-design {
+    color: #6b52b5;
+    background: #eee9fa
+}
+
+.type-research {
+    color: #4774a9;
+    background: #e8f0f9
+}
+
+.type-development {
+    color: #3e8058;
+    background: #e5f3e9
+}
+
+.type-content {
+    color: #a06540;
+    background: #f9ebe2
+}
+
+.type-planning,
+.type-task {
+    color: #71652d;
+    background: #f6f0d8
+}
+
+.card-label button {
+    border: 0;
+    background: none
+}
+
+.kanban-card h3 {
+    margin: 12px 0 6px;
+    font: 700 12px/1.45 Manrope, sans-serif
+}
+
+.kanban-card>p {
+    margin-bottom: 16px;
+    color: #8a909a;
+    font-size: 9px;
+    line-height: 1.5
+}
+
+.priority {
+    font-size: 8px;
+    font-weight: 700
+}
+
+.priority-high {
+    color: #c35762
+}
+
+.priority-medium {
+    color: #be843b
+}
+
+.priority-low {
+    color: #4d8a66
+}
+
+.small-avatar {
+    width: 25px;
+    height: 25px;
+    font-size: 7px
+}
+
+.move-task {
+    margin-top: 12px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #f0f0f2;
+    color: #a0a5ad;
+    font-size: 8px
+}
+
+.move-task select {
+    border: 0;
+    background: transparent;
+    font-size: 8px
+}
+
+.issue-key {
+    position: absolute;
+    right: 46px;
+    bottom: 17px;
+    color: #adb1b7;
+    font-size: 7px
+}
+
+.empty-column {
+    min-height: 60px;
+    border: 1px dashed #cfd2d7;
+    border-radius: 8px;
+    color: #8e949d;
+    background: transparent;
+    font-size: 10px
+}
+
+.modal-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: #1618258f;
+    backdrop-filter: blur(3px)
+}
+
+.task-modal {
+    width: min(520px, 100%);
+    overflow: hidden;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 30px 80px #11131f52
+}
+
+.modal-head {
+    padding: 22px 24px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ececef
+}
+
+.modal-head>div {
+    display: flex;
+    gap: 12px
+}
+
+.modal-icon {
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    color: #fff;
+    background: var(--ws-purple)
+}
+
+.modal-head h2 {
+    margin: 0 0 4px;
+    font: 700 18px Manrope, sans-serif
+}
+
+.modal-head p {
+    margin: 0;
+    color: #878d97;
+    font-size: 10px
+}
+
+.modal-head>button {
+    border: 0;
+    background: none;
+    font-size: 24px
+}
+
+.task-modal form {
+    padding: 22px 24px
+}
+
+.task-modal label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 16px;
+    color: #555c67;
+    font-size: 10px;
+    font-weight: 700
+}
+
+.task-modal input,
+.task-modal textarea,
+.task-modal select {
+    width: 100%;
+    padding: 10px 11px;
+    border: 1px solid #dfe1e5;
+    border-radius: 7px;
+    outline: 0;
+    font: 11px DM Sans, sans-serif
+}
+
+.task-modal input:focus,
+.task-modal textarea:focus,
+.task-modal select:focus {
+    border-color: #7968d6;
+    box-shadow: 0 0 0 3px #6957d917
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px
+}
+
+.modal-actions {
+    margin: 8px -24px -22px;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    border-top: 1px solid #ececef;
+    background: #fafafa
+}
+
+.modal-actions button:first-child {
+    border: 1px solid #dadde1;
+    background: #fff
+}
+
+.sidebar-backdrop {
+    display: none
+}
+
+@media(max-width:950px) {
+    .ws-sidebar {
+        transform: translateX(-100%);
+        transition: transform .25s
+    }
+
+    .ws-sidebar.open {
+        transform: none
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 29;
+        border: 0;
+        background: #17192775
+    }
+
+    .ws-main {
+        width: 100%;
+        margin-left: 0
+    }
+
+    .mobile-menu {
+        display: block;
+        margin-right: 12px
+    }
+
+    .kanban {
+        overflow-x: auto
+    }
+
+    .kanban-column {
+        min-width: 280px
+    }
+
+    .project-heading {
+        align-items: flex-start
+    }
+
+    .member-stack {
+        display: none
+    }
+}
+
+@media(max-width:650px) {
+    .ws-topbar {
+        padding: 0 16px
+    }
+
+    .global-search {
+        flex: 1
+    }
+
+    .global-search input {
+        width: 100%
+    }
+
+    .global-search kbd,
+    .top-actions {
+        display: none
+    }
+
+    .workspace-content {
+        padding: 22px 16px 40px
+    }
+
+    .project-heading {
+        display: block
+    }
+
+    .heading-actions {
+        margin-top: 20px
+    }
+
+    .view-tabs {
+        gap: 18px;
+        overflow-x: auto
+    }
+
+    .view-tabs button {
+        flex: none
+    }
+
+    .board-tools {
+        flex-wrap: wrap
+    }
+
+    .local-search {
+        width: 100%
+    }
+
+    .kanban {
+        margin-right: -16px;
+        padding-right: 16px
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr
+    }
+
+    .task-modal {
+        max-height: calc(100vh - 24px);
+        overflow: auto
+    }
+}
+
+/* Readability and visual hierarchy */
+.ws-sidebar {
+    width: 276px;
+    padding: 27px 18px 18px
+}
+
+.ws-main {
+    width: calc(100% - 276px);
+    margin-left: 276px
+}
+
+.ws-brand {
+    padding: 0 12px 31px;
+    font-size: 22px
+}
+
+.ws-label {
+    padding: 14px 13px 9px;
+    font-size: 11px;
+    color: #7d8490
+}
+
+.ws-sidebar nav {
+    gap: 6px
+}
+
+.ws-sidebar nav button {
+    height: 46px;
+    padding: 0 13px;
+    gap: 13px;
+    font-size: 14px;
+    color: #4f5865
+}
+
+.ws-nav-icon {
+    font-size: 18px
+}
+
+.ws-sidebar nav button>small {
+    width: 24px;
+    height: 22px;
+    font-size: 11px
+}
+
+.project-label {
+    margin-top: 19px
+}
+
+.project-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 14px
+}
+
+.project-link small {
+    font-size: 11px
+}
+
+.sidebar-help {
+    padding: 16px
+}
+
+.sidebar-help>span {
+    width: 30px;
+    height: 30px
+}
+
+.sidebar-help strong,
+.ws-user strong {
+    font-size: 13px
+}
+
+.sidebar-help small,
+.ws-user small {
+    font-size: 11px
+}
+
+.ws-user {
+    padding-top: 16px
+}
+
+.ws-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 10px
+}
+
+.ws-topbar {
+    height: 72px;
+    padding: 0 36px
+}
+
+.global-search {
+    font-size: 15px
+}
+
+.global-search input {
+    font-size: 14px
+}
+
+.global-search kbd {
+    font-size: 11px
+}
+
+.top-actions button {
+    font-size: 15px
+}
+
+.workspace-content {
+    padding: 34px 38px 64px
+}
+
+.breadcrumbs {
+    font-size: 13px
+}
+
+.project-heading {
+    margin-top: 22px
+}
+
+.title-row h1 {
+    font-size: 34px;
+    letter-spacing: -1.5px
+}
+
+.project-heading p {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #68717e
+}
+
+.heading-actions button,
+.modal-actions button {
+    height: 42px;
+    padding: 0 17px;
+    font-size: 13px
+}
+
+.member-stack i {
+    width: 34px;
+    height: 34px;
+    font-size: 10px
+}
+
+.view-tabs {
+    height: 58px;
+    margin-top: 31px;
+    gap: 34px
+}
+
+.view-tabs button {
+    font-size: 14px
+}
+
+.view-tabs button span {
+    padding: 3px 7px;
+    font-size: 9px
+}
+
+.board-tools {
+    padding: 24px 0
+}
+
+.local-search {
+    width: 260px;
+    height: 42px;
+    padding: 0 13px
+}
+
+.local-search input {
+    font-size: 13px
+}
+
+.board-tools select,
+.board-tools>button {
+    height: 42px;
+    padding: 0 15px;
+    font-size: 12px
+}
+
+.task-total {
+    font-size: 12px
+}
+
+.kanban {
+    gap: 20px
+}
+
+.kanban-column {
+    min-height: 540px;
+    padding: 15px;
+    border-radius: 12px
+}
+
+.kanban-title {
+    height: 40px;
+    padding: 0 3px;
+    font-size: 11px
+}
+
+.kanban-title i {
+    width: 8px;
+    height: 8px
+}
+
+.kanban-title b {
+    width: 22px;
+    height: 22px;
+    font-size: 10px
+}
+
+.kanban-title button {
+    font-size: 18px
+}
+
+.kanban-list {
+    gap: 12px
+}
+
+.kanban-card {
+    padding: 18px 18px 15px;
+    border-radius: 11px
+}
+
+.card-label>span {
+    padding: 5px 8px;
+    font-size: 10px
+}
+
+.card-label button {
+    font-size: 14px
+}
+
+.kanban-card h3 {
+    margin: 15px 0 8px;
+    font-size: 15px;
+    line-height: 1.4
+}
+
+.kanban-card>p {
+    margin-bottom: 20px;
+    color: #6f7783;
+    font-size: 12px;
+    line-height: 1.55
+}
+
+.priority {
+    font-size: 10px
+}
+
+.small-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 9px
+}
+
+.move-task {
+    margin-top: 15px;
+    padding-top: 13px;
+    align-items: center;
+    font-size: 10px
+}
+
+.move-task select {
+    font-size: 10px;
+    font-weight: 700
+}
+
+.issue-key {
+    right: 58px;
+    bottom: 20px;
+    font-size: 9px
+}
+
+.empty-column {
+    min-height: 72px;
+    font-size: 12px
+}
+
+.task-modal {
+    width: min(560px, 100%)
+}
+
+.modal-head {
+    padding: 25px 27px
+}
+
+.modal-head h2 {
+    font-size: 21px
+}
+
+.modal-head p {
+    font-size: 12px
+}
+
+.task-modal form {
+    padding: 25px 27px
+}
+
+.task-modal label {
+    font-size: 12px
+}
+
+.task-modal input,
+.task-modal textarea,
+.task-modal select {
+    padding: 12px 13px;
+    font-size: 13px
+}
+
+.modal-actions {
+    margin: 10px -27px -25px;
+    padding: 18px 27px
+}
+
+@media(max-width:1200px) {
+    .ws-sidebar {
+        width: 248px
+    }
+
+    .ws-main {
+        width: calc(100% - 248px);
+        margin-left: 248px
+    }
+
+    .workspace-content {
+        padding-inline: 28px
+    }
+
+    .kanban {
+        gap: 14px
+    }
+
+    .kanban-column {
+        padding: 12px
+    }
+
+    .kanban-card {
+        padding: 15px
+    }
+
+    .issue-key {
+        right: 52px
+    }
+}
+
+@media(max-width:950px) {
+    .ws-sidebar {
+        width: 276px
+    }
+
+    .ws-main {
+        width: 100%;
+        margin-left: 0
+    }
+
+    .workspace-content {
+        padding-inline: 24px
+    }
+
+    .kanban-column {
+        min-width: 320px
+    }
+}
+
+@media(max-width:650px) {
+    .workspace-content {
+        padding: 25px 16px 45px
+    }
+
+    .title-row h1 {
+        font-size: 28px
+    }
+
+    .project-heading p {
+        font-size: 14px
+    }
+
+    .heading-actions button {
+        font-size: 12px
+    }
+
+    .view-tabs {
+        gap: 22px
+    }
+
+    .board-tools {
+        padding-block: 19px
+    }
+
+    .kanban-column {
+        min-width: 300px
+    }
+
+    .kanban-card h3 {
+        font-size: 15px
+    }
+
+    .modal-head,
+    .task-modal form {
+        padding-inline: 20px
+    }
+
+    .modal-actions {
+        margin-inline: -20px;
+        padding-inline: 20px
+    }
+}
+
+.move-task {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    justify-content: initial
+}
+
+.move-task .issue-key {
+    position: static;
+    right: auto;
+    bottom: auto;
+    color: #9ca2ab;
+    font-size: 9px;
+    white-space: nowrap
+}
+
+.move-task select {
+    max-width: 105px;
+    min-width: 0
+}
+
+/* Polished workspace surfaces */
+.workspace {
+    background: #f5f6f8
+}
+
+.ws-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom-color: #dfe2e7;
+    box-shadow: 0 1px 3px rgba(25, 33, 43, .04)
+}
+
+.global-search {
+    width: 360px;
+    height: 42px;
+    padding: 0 13px;
+    border: 1px solid #e1e3e7;
+    border-radius: 9px;
+    background: #f8f9fa
+}
+
+.global-search input {
+    flex: 1
+}
+
+.workspace-content {
+    background: linear-gradient(180deg, #fff 0, #fff 238px, #f5f6f8 238px)
+}
+
+.breadcrumbs a {
+    color: #6554c9;
+    font-weight: 700
+}
+
+.project-heading {
+    padding-bottom: 3px
+}
+
+.title-row h1 {
+    color: #161c27;
+    font-weight: 800
+}
+
+.title-row button {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px
+}
+
+.title-row button:hover {
+    color: #d49428;
+    background: #fff6df
+}
+
+.heading-actions .secondary {
+    box-shadow: 0 1px 2px rgba(20, 28, 40, .04)
+}
+
+.heading-actions .primary {
+    box-shadow: 0 7px 16px rgba(105, 87, 217, .2)
+}
+
+.view-tabs button {
+    position: relative;
+    color: #69717d
+}
+
+.view-tabs button.active {
+    font-weight: 800
+}
+
+.view-tabs button.active:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--ws-purple)
+}
+
+.board-tools {
+    margin-top: 1px
+}
+
+.board-tools select,
+.board-tools>button,
+.local-search {
+    border-color: #d9dde3;
+    box-shadow: 0 1px 2px rgba(20, 28, 40, .03)
+}
+
+.board-tools>button:hover {
+    border-color: #bfc4cc;
+    background: #fafafa
+}
+
+.task-total {
+    padding: 6px 10px;
+    border-radius: 20px;
+    color: #606975;
+    background: #e9ebef;
+    font-weight: 700
+}
+
+.kanban {
+    gap: 18px
+}
+
+.kanban-column {
+    border-color: #dfe2e7;
+    background: #eef0f3;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65)
+}
+
+.kanban-title {
+    height: 44px;
+    color: #545d69
+}
+
+.kanban-title b {
+    color: #626a75;
+    background: #dfe2e7
+}
+
+.kanban-title button {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    color: #555e69
+}
+
+.kanban-title button:hover {
+    color: #5646bc;
+    background: #e1ddf7
+}
+
+.kanban-card {
+    border-color: #dfe2e7;
+    box-shadow: 0 2px 5px rgba(25, 33, 43, .06)
+}
+
+.kanban-card:hover {
+    border-color: #bbb3e8;
+    box-shadow: 0 10px 24px rgba(35, 29, 70, .1)
+}
+
+.kanban-card h3 {
+    color: #202632
+}
+
+.kanban-card>p {
+    color: #68717e
+}
+
+.card-label button {
+    width: 28px;
+    height: 26px;
+    border-radius: 6px;
+    color: #777f89
+}
+
+.card-label button:hover {
+    background: #f1f2f4
+}
+
+.priority {
+    padding: 4px 7px;
+    border-radius: 5px
+}
+
+.priority-high {
+    background: #fff0f1
+}
+
+.priority-medium {
+    background: #fff7e8
+}
+
+.priority-low {
+    background: #edf8f1
+}
+
+.move-task {
+    min-height: 41px;
+    margin: 15px -18px -15px;
+    padding: 12px 18px;
+    border-radius: 0 0 11px 11px;
+    background: #fafbfc;
+    color: #808894
+}
+
+.move-task select {
+    height: 27px;
+    padding: 0 24px 0 9px;
+    border: 1px solid #dde0e5;
+    border-radius: 6px;
+    color: #3f4752;
+    background-color: #fff;
+    font-weight: 700;
+    cursor: pointer
+}
+
+.move-task select:hover {
+    border-color: #a9a0df
+}
+
+.move-task .issue-key {
+    color: #747d89;
+    font-weight: 700
+}
+
+.empty-column {
+    width: 100%;
+    color: #69717c;
+    background: rgba(255, 255, 255, .42)
+}
+
+.empty-column:hover {
+    border-color: #8b7ddd;
+    color: #5b4bc0;
+    background: #fff
+}
+
+.ws-sidebar {
+    box-shadow: 2px 0 12px rgba(25, 33, 43, .025)
+}
+
+.ws-sidebar nav button.selected {
+    box-shadow: inset 3px 0 0 var(--ws-purple)
+}
+
+@media(max-width:1200px) {
+    .move-task {
+        margin: 15px -15px -15px;
+        padding-inline: 15px
+    }
+
+    .global-search {
+        width: 310px
+    }
+}
+
+@media(max-width:650px) {
+    .workspace-content {
+        background: linear-gradient(180deg, #fff 0, #fff 315px, #f5f6f8 315px)
+    }
+
+    .global-search {
+        width: auto;
+        height: 40px
+    }
+
+    .move-task {
+        margin-inline: -15px;
+        padding-inline: 15px
+    }
+}
+
+.move-task {
+    grid-template-columns: auto 1fr 132px;
+    gap: 14px
+}
+
+.move-task .issue-key {
+    justify-self: end
+}
+
+.move-task select {
+    width: 132px;
+    max-width: none;
+    padding: 0 30px 0 11px;
+    font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+    text-overflow: clip
+}
+
+@media(max-width:1200px) {
+    .move-task {
+        grid-template-columns: auto 1fr 124px;
+        gap: 10px
+    }
+
+    .move-task select {
+        width: 124px
+    }
+}
+
+@media(max-width:650px) {
+    .move-task {
+        grid-template-columns: auto 1fr 128px
+    }
+
+    .move-task select {
+        width: 128px
+    }
+}
+
+/* Compact card status: intentionally lightweight, not form-like */
+.move-task {
+    grid-template-columns: 1fr auto 102px;
+    gap: 12px
+}
+
+.move-task .issue-key {
+    justify-self: auto
+}
+
+.move-task select {
+    width: 102px;
+    max-width: 102px;
+    height: auto;
+    padding: 2px 18px 2px 4px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    color: #303741;
+    background-color: transparent;
+    font-size: 10px;
+    font-weight: 800
+}
+
+.move-task select:hover,
+.move-task select:focus {
+    border: 0;
+    box-shadow: none;
+    background-color: transparent;
+    outline: 0
+}
+
+@media(max-width:1200px) {
+    .move-task {
+        grid-template-columns: 1fr auto 98px
+    }
+
+    .move-task select {
+        width: 98px;
+        max-width: 98px
+    }
+}
+
+@media(max-width:650px) {
+    .move-task {
+        grid-template-columns: 1fr auto 102px
+    }
+
+    .move-task select {
+        width: 102px;
+        max-width: 102px
+    }
+}
