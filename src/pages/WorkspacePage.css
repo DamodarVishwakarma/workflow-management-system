@@ -81,8 +81,33 @@
     font-size: 15px
 }
 
+.ws-sidebar nav .add-project-button {
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    color: #747b87;
+    font-size: 17px
+}
+
+.ws-sidebar nav .add-project-button:hover {
+    color: #5d4bc4;
+    background: #ece9fb
+}
+
+.ws-sidebar .project-link.active {
+    color: #5d4bc4;
+    background: #f5f3fd
+}
+
 .project-label {
-    margin-top: 15px
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
 }
 
 .ws-sidebar nav button {
@@ -197,81 +222,6 @@
     font-size: 9px
 }
 
-.ws-user-box {
-    flex: 0 0 auto;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid #eee
-}
-
-.ws-user-profile,
-.ws-user-heading {
-    display: flex;
-    align-items: center
-}
-
-.ws-user-profile {
-    gap: 9px;
-    margin-bottom: 10px
-}
-
-.ws-user-details {
-    min-width: 0;
-    flex: 1
-}
-
-.ws-user-heading {
-    gap: 6px
-}
-
-.ws-user-name,
-.ws-user-email {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap
-}
-
-.ws-user-name {
-    color: #1a202c;
-    font-size: 13px
-}
-
-.ws-user-email {
-    color: #888f9c;
-    font-size: 11px
-}
-
-.ws-user-role {
-    flex: 0 0 auto;
-    padding: 1px 6px;
-    font-size: 9px
-}
-
-.ws-user strong,
-.ws-user small {
-    display: block
-}
-
-.ws-user strong {
-    font-size: 11px
-}
-
-.ws-user small {
-    margin-top: 3px;
-    color: #9297a0;
-    font-size: 9px
-}
-
-.ws-user {
-    margin-top: 14px;
-    padding: 14px 5px 0;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    border-top: 1px solid #eee
-}
-
 .ws-avatar {
     width: 32px;
     height: 32px;
@@ -283,12 +233,6 @@
     background: #9a78b8;
     font-size: 9px;
     font-weight: 800
-}
-
-.ws-user button {
-    margin-left: auto;
-    border: 0;
-    background: none
 }
 
 .ws-main {
@@ -1038,18 +982,6 @@
 
 .project-link small {
     font-size: 11px
-}
-
-.ws-user strong {
-    font-size: 13px
-}
-
-.ws-user small {
-    font-size: 11px
-}
-
-.ws-user {
-    padding-top: 16px
 }
 
 .ws-avatar {

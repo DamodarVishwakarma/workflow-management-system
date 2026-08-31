@@ -100,6 +100,11 @@ function TaskModal({ onClose, onCreateTask, onUpdateTask, task = null }) {
             </label>
           </div>
 
+          <label>
+            Due date
+            <input name="dueDate" type="date" defaultValue={task?.dueDate || ''} />
+          </label>
+
           <div className="modal-actions">
             <button type="button" onClick={onClose}>
               Cancel

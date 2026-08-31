@@ -14,6 +14,20 @@ import { seedInvitations } from '../data/initialInvitations';
 
 const AuthContext = createContext(null);
 
+function applyCurrentSeedProfile(user) {
+  const seedProfile = seedUsers.find(({ id }) => id === user?.id);
+  if (!seedProfile) return user;
+
+  return {
+    ...user,
+    name: seedProfile.name,
+    email: seedProfile.email,
+    initials: seedProfile.initials,
+    avatarColor: seedProfile.avatarColor,
+    title: seedProfile.title,
+  };
+}
+
 // Helper function to extract 2-letter uppercase initials from full name
 export function getInitials(name) {
   if (!name) return 'U';
@@ -31,7 +45,7 @@ export function AuthProvider({ children }) {
       const stored = localStorage.getItem('flowboard-users');
       if (!stored) return seedUsers;
 
-      const storedUsers = JSON.parse(stored);
+      const storedUsers = JSON.parse(stored).map(applyCurrentSeedProfile);
       const storedIds = new Set(storedUsers.map((user) => user.id));
       const missingSeedUsers = seedUsers.filter((user) => !storedIds.has(user.id));
 
@@ -45,7 +59,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const stored = localStorage.getItem('flowboard-current-user');
-      return stored ? JSON.parse(stored) : null;
+      return stored ? applyCurrentSeedProfile(JSON.parse(stored)) : null;
     } catch {
       return null;
     }

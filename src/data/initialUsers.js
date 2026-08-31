@@ -8,7 +8,7 @@
 export const seedUsers = [
   {
     id: 'usr-1',
-    name: 'Alex Morgan',
+    name: 'Arjun Mehta',
     email: 'admin@gmail.com',
     password: '123',
     role: 'Owner',
@@ -18,8 +18,8 @@ export const seedUsers = [
   },
   {
     id: 'usr-2',
-    name: 'Sarah Jenkins',
-    email: 'sarah@flowboard.io',
+    name: 'Sneha Joshi',
+    email: 'sneha@flowboard.io',
     password: 'password123',
     role: 'Admin',
     initials: 'SJ',
@@ -28,8 +28,8 @@ export const seedUsers = [
   },
   {
     id: 'usr-3',
-    name: 'David Chen',
-    email: 'david@flowboard.io',
+    name: 'Dev Chandra',
+    email: 'dev@flowboard.io',
     password: 'password123',
     role: 'Member',
     initials: 'DC',
@@ -38,8 +38,8 @@ export const seedUsers = [
   },
   {
     id: 'usr-4',
-    name: 'Jordan Reed',
-    email: 'jordan@flowboard.io',
+    name: 'Jiya Rao',
+    email: 'jiya@flowboard.io',
     password: 'password123',
     role: 'Viewer',
     initials: 'JR',
@@ -48,8 +48,8 @@ export const seedUsers = [
   },
   {
     id: 'usr-5',
-    name: 'Katherine Scott',
-    email: 'katherine@flowboard.io',
+    name: 'Kavya Sharma',
+    email: 'kavya@flowboard.io',
     password: 'password123',
     role: 'Member',
     initials: 'KS',

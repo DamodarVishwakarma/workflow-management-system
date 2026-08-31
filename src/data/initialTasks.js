@@ -11,6 +11,7 @@ export const seedTasks = [
     priority: 'High',
     type: 'Design',
     assignee: 'AM',
+    dueDate: '2026-09-08',
   },
   {
     id: 'FLW-19',
@@ -20,6 +21,7 @@ export const seedTasks = [
     priority: 'Medium',
     type: 'Research',
     assignee: 'KS',
+    dueDate: '2026-09-12',
   },
   {
     id: 'FLW-31',
@@ -29,6 +31,7 @@ export const seedTasks = [
     priority: 'High',
     type: 'Development',
     assignee: 'JR',
+    dueDate: '2026-09-05',
   },
   {
     id: 'FLW-27',
@@ -38,6 +41,7 @@ export const seedTasks = [
     priority: 'Low',
     type: 'Content',
     assignee: 'AM',
+    dueDate: '2026-09-15',
   },
   {
     id: 'FLW-08',
@@ -47,6 +51,7 @@ export const seedTasks = [
     priority: 'Medium',
     type: 'Planning',
     assignee: 'KS',
+    dueDate: '2026-08-28',
   },
 ];
 

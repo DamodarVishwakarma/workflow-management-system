@@ -50,49 +50,18 @@
   right: 0;
   z-index: 100;
   box-sizing: border-box;
-  width: 230px;
-  padding: 14px;
+  width: 180px;
+  padding: 10px;
   border: 1px solid #e1e4ea;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 12px 32px rgba(25, 33, 43, .12);
 }
 
-.profile-dropdown-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.profile-dropdown-avatar {
-  width: 36px;
-  height: 36px;
-  font-size: 12px;
-}
-
-.profile-dropdown-identity {
-  overflow: hidden;
-}
-
-.profile-dropdown-name {
-  color: #1a202c;
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.profile-dropdown-email {
-  overflow: hidden;
-  color: #7a828e;
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .profile-logout-button {
   width: 100%;
   height: 34px;
-  margin-top: 6px;
+  margin-top: 0;
   display: flex;
   align-items: center;
   justify-content: center;

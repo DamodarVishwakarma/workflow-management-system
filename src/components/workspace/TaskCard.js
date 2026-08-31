@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { resolveAssignee } from '../../data/userProfiles';
+import Icon from '../common/Icon';
 import './TaskCard.css';
 
 /**
@@ -59,7 +60,7 @@ function TaskCard({
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((isOpen) => !isOpen)}
             >
-              •••
+              <Icon name="moreHorizontal" size={20} />
             </button>
             {menuOpen && (
               <div className="task-card-menu" role="menu">
@@ -71,7 +72,8 @@ function TaskCard({
                     onEditTask(task);
                   }}
                 >
-                  <span aria-hidden="true">✎</span> Edit task
+                  <Icon name="edit" size={16} />
+                  <span>Edit task</span>
                 </button>
                 <button
                   type="button"
@@ -82,7 +84,8 @@ function TaskCard({
                     onDeleteTask(task);
                   }}
                 >
-                  <span aria-hidden="true">♲</span> Delete task
+                  <Icon name="trash" size={16} />
+                  <span>Delete task</span>
                 </button>
               </div>
             )}

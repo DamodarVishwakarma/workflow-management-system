@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth } from '../../context/AuthContext';
 
 /**
  * Helper component for displaying icons in the navigation list.
@@ -27,16 +26,20 @@ function Sidebar({
   activeTaskCount,
   activeView,
   onViewChange,
+  projects,
+  activeProjectId,
+  onProjectChange,
+  onCreateProject,
+  canCreateProject,
 }) {
-  const { currentUser, role, roleBadgeColor } = useAuth();
-
-  const initials = currentUser?.initials || 'U';
-  const userName = currentUser?.name || 'Guest User';
-  const userEmail = currentUser?.email || 'guest@flowboard.io';
-  const avatarClass = currentUser?.avatarColor || 'purple';
-
   const selectView = (view) => {
     onViewChange(view);
+    setSidebarOpen(false);
+  };
+
+  const selectProject = (projectId) => {
+    onProjectChange(projectId);
+    onViewChange('overview');
     setSidebarOpen(false);
   };
 
@@ -83,43 +86,36 @@ function Sidebar({
           </button>
 
           <span className="ws-label project-label">
-            Projects <b>＋</b>
+            Projects
+            {canCreateProject && (
+              <button
+                type="button"
+                className="add-project-button"
+                onClick={onCreateProject}
+                aria-label="Create project"
+              >
+                ＋
+              </button>
+            )}
           </span>
 
-          <button
-            type="button"
-            className="project-link"
-            onClick={() => selectView('overview')}
-          >
-            <span className="project-badge">W</span>
-            <span>
-              Website redesign
-              <small>Software project</small>
-            </span>
-          </button>
+          {projects.map((project) => (
+            <button
+              type="button"
+              key={project.id}
+              className={`project-link${activeProjectId === project.id ? ' active' : ''}`}
+              onClick={() => selectProject(project.id)}
+              aria-current={activeProjectId === project.id ? 'page' : undefined}
+            >
+              <span className="project-badge">{project.name.charAt(0).toUpperCase()}</span>
+              <span>
+                {project.name}
+                <small>{project.type}</small>
+              </span>
+            </button>
+          ))}
         </nav>
 
-        <div className="ws-user-box">
-          <div className="ws-user-profile">
-            <span className={`ws-avatar ${avatarClass}`}>
-              {initials}
-            </span>
-            <div className="ws-user-details">
-              <div className="ws-user-heading">
-                <strong className="ws-user-name">
-                  {userName}
-                </strong>
-                <span className={`role-tag ${roleBadgeColor} ws-user-role`}>
-                  {role}
-                </span>
-              </div>
-              <small className="ws-user-email">
-                {userEmail}
-              </small>
-            </div>
-          </div>
-
-        </div>
       </aside>
 
       {/* Mobile Backdrop */}

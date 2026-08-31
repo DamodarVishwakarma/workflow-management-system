@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './WorkspacePage.css';
 import { seedTasks, columns } from '../data/initialTasks';
+import { DEFAULT_PROJECT_ID, seedProjects } from '../data/initialProjects';
 import { getMyTasksCount, getRecentActivity } from '../data/workspaceSummary';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/workspace/Sidebar';
@@ -12,6 +13,10 @@ import TaskModal from '../components/workspace/TaskModal';
 import InviteModal from '../components/workspace/InviteModal';
 import MyTasksView from '../components/workspace/MyTasksView';
 import ActivityView from '../components/workspace/ActivityView';
+import ProjectModal from '../components/workspace/ProjectModal';
+import ProjectListView from '../components/workspace/ProjectListView';
+import ProjectTimelineView from '../components/workspace/ProjectTimelineView';
+import ProjectFilesView from '../components/workspace/ProjectFilesView';
 
 /**
  * 🎓 WorkspacePage Component (Connected with Auth, Roles & Invitations)
@@ -30,13 +35,35 @@ function WorkspacePage() {
     canMoveTask,
     canInvite,
     isViewer,
+    isOwner,
+    isAdmin,
   } = useAuth();
+
+  const [projects, setProjects] = useState(() => {
+    try {
+      const savedProjects = localStorage.getItem('flowboard-projects');
+      return savedProjects ? JSON.parse(savedProjects) : seedProjects;
+    } catch {
+      return seedProjects;
+    }
+  });
+  const [activeProjectId, setActiveProjectId] = useState(() =>
+    localStorage.getItem('flowboard-active-project') || DEFAULT_PROJECT_ID
+  );
 
   // 2. Task State with localStorage persistence
   const [tasks, setTasks] = useState(() => {
     try {
       const savedTasks = localStorage.getItem('flowboard-tasks');
-      return savedTasks ? JSON.parse(savedTasks) : seedTasks;
+      const parsedTasks = savedTasks ? JSON.parse(savedTasks) : seedTasks;
+      return parsedTasks.map((task) => {
+        const seedTask = seedTasks.find(({ id }) => id === task.id);
+        return {
+          ...task,
+          projectId: task.projectId || DEFAULT_PROJECT_ID,
+          dueDate: task.dueDate || seedTask?.dueDate || '',
+        };
+      });
     } catch {
       return seedTasks;
     }
@@ -48,34 +75,66 @@ function WorkspacePage() {
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [showProjectModal, setShowProjectModal] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeView, setActiveView] = useState('overview');
+  const [projectView, setProjectView] = useState('board');
+  const [files, setFiles] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('flowboard-files')) || [];
+    } catch {
+      return [];
+    }
+  });
 
   // Sync tasks to localStorage
   useEffect(() => {
     localStorage.setItem('flowboard-tasks', JSON.stringify(tasks));
   }, [tasks]);
 
+  useEffect(() => {
+    localStorage.setItem('flowboard-projects', JSON.stringify(projects));
+  }, [projects]);
+
+  useEffect(() => {
+    localStorage.setItem('flowboard-active-project', activeProjectId);
+  }, [activeProjectId]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('flowboard-files', JSON.stringify(files));
+    } catch {
+      // File-size validation keeps this unlikely; retain in-memory files if storage is full.
+    }
+  }, [files]);
+
+  const activeProject =
+    projects.find((project) => project.id === activeProjectId) || projects[0];
+  const projectTasks = useMemo(
+    () => tasks.filter((task) => task.projectId === activeProject?.id),
+    [tasks, activeProject?.id]
+  );
+
   // Filtered tasks calculation
   const visibleTasks = useMemo(() => {
-    return tasks.filter((task) => {
+    return projectTasks.filter((task) => {
       const matchesSearch = `${task.title} ${task.id}`
         .toLowerCase()
         .includes(query.toLowerCase());
       const matchesPriority = priority === 'All' || task.priority === priority;
       return matchesSearch && matchesPriority;
     });
-  }, [tasks, query, priority]);
+  }, [projectTasks, query, priority]);
 
   // Count active tasks assigned specifically to the logged-in user.
   // useMemo keeps this calculation fast and easy to read.
   const userInitials = currentUser?.initials || 'AM';
   const activeUserTasksCount = useMemo(
-    () => getMyTasksCount(tasks, userInitials),
-    [tasks, userInitials]
+    () => getMyTasksCount(projectTasks, userInitials),
+    [projectTasks, userInitials]
   );
 
-  const recentActivity = useMemo(() => getRecentActivity(tasks), [tasks]);
+  const recentActivity = useMemo(() => getRecentActivity(projectTasks), [projectTasks]);
   const myTasks = useMemo(
     () => visibleTasks.filter((task) => task.assignee === userInitials),
     [visibleTasks, userInitials]
@@ -99,6 +158,8 @@ function WorkspacePage() {
       priority: form.get('priority'),
       type: form.get('type'),
       assignee: userInitials,
+      projectId: activeProject.id,
+      dueDate: form.get('dueDate'),
     };
 
     setTasks((currentTasks) => [...currentTasks, newTask]);
@@ -116,6 +177,7 @@ function WorkspacePage() {
       status: form.get('status'),
       priority: form.get('priority'),
       type: form.get('type'),
+      dueDate: form.get('dueDate'),
     };
 
     setTasks((currentTasks) =>
@@ -153,6 +215,56 @@ function WorkspacePage() {
     setShowForm(false);
   };
 
+  const handleCreateProject = (event) => {
+    event.preventDefault();
+    if (!isOwner && !isAdmin) return;
+
+    const form = new FormData(event.currentTarget);
+    const project = {
+      id: `project-${Date.now()}`,
+      name: form.get('name').trim(),
+      description: form.get('description').trim() || 'A new workspace project.',
+      type: form.get('type'),
+    };
+
+    setProjects((currentProjects) => [...currentProjects, project]);
+    setActiveProjectId(project.id);
+    setActiveView('overview');
+    setQuery('');
+    setPriority('All');
+    setShowProjectModal(false);
+  };
+
+  const handleProjectChange = (projectId) => {
+    setActiveProjectId(projectId);
+    setQuery('');
+    setPriority('All');
+    setProjectView('board');
+  };
+
+  const handleUploadFiles = async (selectedFiles) => {
+    const uploadedFiles = await Promise.all(selectedFiles.map((file) => new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve({
+        id: `file-${Date.now()}-${file.name}`,
+        projectId: activeProject.id,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        dataUrl: reader.result,
+        createdAt: new Date().toISOString(),
+      });
+      reader.readAsDataURL(file);
+    })));
+    setFiles((currentFiles) => [...uploadedFiles, ...currentFiles]);
+  };
+
+  const handleDeleteFile = (file) => {
+    if (window.confirm(`Delete “${file.name}”?`)) {
+      setFiles((currentFiles) => currentFiles.filter(({ id }) => id !== file.id));
+    }
+  };
+
   // Handler: Move a task to a different status column
   const handleMoveTask = (id, newStatus) => {
     if (!canMoveTask) return;
@@ -173,6 +285,11 @@ function WorkspacePage() {
         activeTaskCount={activeUserTasksCount}
         activeView={activeView}
         onViewChange={setActiveView}
+        projects={projects}
+        activeProjectId={activeProject.id}
+        onProjectChange={handleProjectChange}
+        onCreateProject={() => setShowProjectModal(true)}
+        canCreateProject={isOwner || isAdmin}
       />
 
       {/* Main Workspace Area */}
@@ -200,17 +317,21 @@ function WorkspacePage() {
                 onOpenInviteModal={() => setShowInviteModal(true)}
                 canCreateTask={canCreateTask}
                 canInvite={canInvite}
+                tasks={projectTasks}
+                project={activeProject}
+                projectView={projectView}
+                onProjectViewChange={setProjectView}
               />
 
-              <BoardFilters
-                query={query}
-                setQuery={setQuery}
-                priority={priority}
-                setPriority={setPriority}
-                taskCount={visibleTasks.length}
-              />
+              {projectView !== 'files' && <BoardFilters
+                  query={query}
+                  setQuery={setQuery}
+                  priority={priority}
+                  setPriority={setPriority}
+                  taskCount={visibleTasks.length}
+                />}
 
-              <section className="board-grid" aria-label="Project board">
+              {projectView === 'board' && <section className="board-grid" aria-label="Project board">
                 {columns.map((column) => {
                   const columnTasks = visibleTasks.filter(
                     (task) => task.status === column.id
@@ -229,7 +350,24 @@ function WorkspacePage() {
                     />
                   );
                 })}
-              </section>
+              </section>}
+
+              {projectView === 'list' && <ProjectListView
+                tasks={visibleTasks}
+                onMoveTask={handleMoveTask}
+                onEditTask={handleEditTask}
+                onDeleteTask={handleDeleteTask}
+                canManageTasks={canMoveTask}
+              />}
+
+              {projectView === 'timeline' && <ProjectTimelineView tasks={visibleTasks} />}
+
+              {projectView === 'files' && <ProjectFilesView
+                files={files.filter((file) => file.projectId === activeProject.id)}
+                onUploadFiles={handleUploadFiles}
+                onDeleteFile={handleDeleteFile}
+                canManageFiles={canCreateTask}
+              />}
             </>
           )}
 
@@ -263,6 +401,13 @@ function WorkspacePage() {
       {/* "Invite Member" Modal Dialog (Available for Owners & Admins) */}
       {showInviteModal && canInvite && (
         <InviteModal onClose={() => setShowInviteModal(false)} />
+      )}
+
+      {showProjectModal && (isOwner || isAdmin) && (
+        <ProjectModal
+          onClose={() => setShowProjectModal(false)}
+          onCreateProject={handleCreateProject}
+        />
       )}
     </div>
   );

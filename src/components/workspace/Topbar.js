@@ -35,7 +35,6 @@ function Topbar({ onOpenSidebar }) {
   const initials = currentUser?.initials || 'U';
   const avatarClass = currentUser?.avatarColor || 'purple';
   const userName = currentUser?.name || 'User';
-  const userEmail = currentUser?.email || 'user@flowboard.io';
 
   return (
     <header className="ws-topbar">
@@ -73,21 +72,6 @@ function Topbar({ onOpenSidebar }) {
             {/* Sleek User Profile Dropdown Menu */}
             {dropdownOpen && (
               <div className="profile-dropdown">
-                {/* User Header */}
-                <div className="profile-dropdown-header">
-                  <span className={`ws-avatar ${avatarClass} profile-dropdown-avatar`}>
-                    {initials}
-                  </span>
-                  <div className="profile-dropdown-identity">
-                    <div className="profile-dropdown-name">
-                      {userName}
-                    </div>
-                    <div className="profile-dropdown-email">
-                      {userEmail}
-                    </div>
-                  </div>
-                </div>
-
                 {/* Prominent Log out button */}
                 <button
                   type="button"
