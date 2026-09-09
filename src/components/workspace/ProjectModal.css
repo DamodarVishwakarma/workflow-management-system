@@ -1,0 +1,45 @@
+.project-modal {
+  width: min(500px, 100%);
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(24, 30, 42, .22);
+}
+
+.project-modal-header {
+  padding: 22px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #eceef2;
+}
+
+.project-modal-header > div { display: flex; align-items: center; gap: 12px; }
+.project-modal-header h2 { margin: 0; color: #222936; font-size: 19px; }
+.project-modal-header p { margin: 4px 0 0; color: #818895; font-size: 12px; }
+.project-modal-header > button { border: 0; background: none; color: #858d99; font-size: 22px; cursor: pointer; }
+
+.project-modal-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #eeeafd;
+  color: #6957d9;
+  font-weight: 800;
+}
+
+.project-modal form { padding: 24px; }
+.project-modal label { margin-bottom: 17px; display: flex; flex-direction: column; gap: 7px; color: #4c5562; font-size: 12px; font-weight: 700; }
+.project-modal input,
+.project-modal textarea,
+.project-modal select { width: 100%; padding: 11px 12px; border: 1px solid #dfe2e7; border-radius: 8px; outline: 0; color: #303743; background: #fff; font: 13px DM Sans, sans-serif; }
+.project-modal input:focus,
+.project-modal textarea:focus,
+.project-modal select:focus { border-color: #7968d6; box-shadow: 0 0 0 3px rgba(105, 87, 217, .1); }
+.project-modal textarea { resize: vertical; }
+
+.project-modal-actions { margin: 22px -24px -24px; padding: 16px 24px; display: flex; justify-content: flex-end; gap: 9px; border-top: 1px solid #eceef2; background: #fafafa; }
+.project-modal-actions button { height: 38px; padding: 0 15px; border: 1px solid #d9dde3; border-radius: 7px; background: #fff; cursor: pointer; }
+.project-modal-actions .primary { border-color: #6957d9; background: #6957d9; color: #fff; font-weight: 700; }

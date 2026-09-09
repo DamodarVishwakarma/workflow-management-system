@@ -1,0 +1,8 @@
+.empty-column-message {
+  padding: 24px 10px;
+  border: 1px dashed #d5d8de;
+  border-radius: 8px;
+  color: #9aa0ac;
+  font-size: 11px;
+  text-align: center;
+}
