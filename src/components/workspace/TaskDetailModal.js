@@ -79,6 +79,7 @@ function TaskDetailModal({
   const [isCommentActive, setIsCommentActive] = useState(false);
   const [activeTab, setActiveTab] = useState('comments');
   const [fieldError, setFieldError] = useState('');
+  const [fieldSuccess, setFieldSuccess] = useState('');
   const [commentError, setCommentError] = useState('');
 
   useEffect(() => {
@@ -97,8 +98,14 @@ function TaskDetailModal({
 
   const runFieldUpdate = async (updates) => {
     setFieldError('');
+    setFieldSuccess('');
     try {
       await onUpdateTask(updates);
+      // Brief success flash
+      const key = Object.keys(updates)[0];
+      const labels = { status: 'Status', assigneeId: 'Assignee', priority: 'Priority', type: 'Type', dueDate: 'Due date', title: 'Title', description: 'Description' };
+      setFieldSuccess(`${labels[key] || 'Field'} updated`);
+      setTimeout(() => setFieldSuccess(''), 2000);
     } catch (error) {
       setFieldError(error.message || getApiErrorMessage(error));
     }
@@ -152,8 +159,13 @@ function TaskDetailModal({
     avatarColor: 'gray',
   };
 
-  const statusLabel = task.status === 'done' ? 'DONE' : task.status === 'progress' ? 'IN PROGRESS' : 'TO DO';
-  const statusClass = task.status === 'done' ? 'jira-lozenge-done' : task.status === 'progress' ? 'jira-lozenge-progress' : 'jira-lozenge-todo';
+  // Normalize status: handle uppercase, alternate forms, etc.
+  const normalizedStatus = (task.status || '').toLowerCase().replace(/[^a-z]/g, '');
+  const resolvedStatus = normalizedStatus === 'done' ? 'done'
+    : (normalizedStatus === 'progress' || normalizedStatus === 'inprogress') ? 'progress'
+    : 'todo';
+  const statusLabel = resolvedStatus === 'done' ? 'DONE' : resolvedStatus === 'progress' ? 'IN PROGRESS' : 'TO DO';
+  const statusClass = resolvedStatus === 'done' ? 'jira-lozenge-done' : resolvedStatus === 'progress' ? 'jira-lozenge-progress' : 'jira-lozenge-todo';
 
   return (
     <div className="modal-layer" role="presentation" onMouseDown={handleBackdropClick}>
@@ -433,7 +445,7 @@ function TaskDetailModal({
                 </span>
                 <select
                   className="jira-hidden-select"
-                  value={task.status}
+                  value={resolvedStatus}
                   disabled={!canEdit}
                   onChange={(e) => runFieldUpdate({ status: e.target.value })}
                   aria-label="Change status"
@@ -620,7 +632,23 @@ function TaskDetailModal({
           </aside>
         </div>
 
-        {fieldError && <p className="jira-error jira-footer-error">{fieldError}</p>}
+        {/* In-modal error / success toast */}
+        {(fieldError || fieldSuccess) && (
+          <div className={`jira-toast ${fieldError ? 'jira-toast-error' : 'jira-toast-success'}`} role="alert">
+            {fieldError ? (
+              <>
+                <span className="jira-toast-icon">⚠</span>
+                <span>{fieldError}</span>
+                <button type="button" className="jira-toast-close" onClick={() => setFieldError('')} aria-label="Dismiss">×</button>
+              </>
+            ) : (
+              <>
+                <span className="jira-toast-icon">✓</span>
+                <span>{fieldSuccess}</span>
+              </>
+            )}
+          </div>
+        )}
       </section>
     </div>
   );

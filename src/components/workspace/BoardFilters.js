@@ -1,4 +1,6 @@
 
+import Icon from '../common/Icon';
+
 /**
  * BoardFilters Component
  * 
@@ -21,7 +23,7 @@ function BoardFilters({ query, setQuery, priority, setPriority, taskCount }) {
     <div className="board-tools">
       {/* Board search field */}
       <div className="local-search">
-        <span>⌕</span>
+        <Icon name="search" size={15} />
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -46,7 +48,7 @@ function BoardFilters({ query, setQuery, priority, setPriority, taskCount }) {
       <button onClick={handleClearFilters}>Clear filters</button>
 
       {/* Filtered task count counter */}
-      <span className="task-total">{taskCount} tasks</span>
+      <span className="task-total">{taskCount} {taskCount === 1 ? 'task' : 'tasks'}</span>
     </div>
   );
 }

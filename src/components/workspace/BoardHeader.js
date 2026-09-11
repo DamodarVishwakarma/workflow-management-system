@@ -95,7 +95,9 @@ function BoardHeader({
         <div>
           <div className="title-row">
             <h1>{project.name}</h1>
-            <button aria-label="Favorite project">☆</button>
+            <button aria-label="Favorite project">
+              <Icon name="star" size={18} />
+            </button>
           </div>
           <p>{project.description}</p>
         </div>
@@ -114,12 +116,14 @@ function BoardHeader({
           </span>
           {canInvite && (
             <button className="secondary" onClick={onOpenInviteModal}>
-              ＋ Invite
+              <Icon name="plus" size={14} />
+              <span>Invite</span>
             </button>
           )}
           {canCreateTask && (
-            <button className="primary" onClick={onOpenCreateModal}>
-              ＋ Create task
+            <button className="primary" onClick={() => onOpenCreateModal()}>
+              <Icon name="plus" size={14} />
+              <span>Create task</span>
             </button>
           )}
         </div>

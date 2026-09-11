@@ -346,6 +346,9 @@
 
 .title-row button {
     border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     color: #9499a2;
     font-size: 22px
@@ -404,6 +407,10 @@
 .modal-actions button {
     height: 38px;
     padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     border-radius: 7px;
     font-size: 11px;
     font-weight: 700
@@ -564,6 +571,9 @@
 
 .board-column-title button {
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 0;
     background: none
 }
@@ -697,6 +707,10 @@
 
 .empty-column {
     min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     border: 1px dashed #cfd2d7;
     border-radius: 8px;
     color: #8e949d;
@@ -774,6 +788,24 @@
     color: #555c67;
     font-size: 10px;
     font-weight: 700
+}
+
+.optional-hint {
+    font-weight: 400;
+    color: #a0a5ad;
+    text-transform: none;
+    letter-spacing: 0
+}
+
+.task-modal-error {
+    margin: -6px 0 16px;
+    padding: 10px 12px;
+    border: 1px solid #f5b5b5;
+    border-radius: 7px;
+    background: #fdecec;
+    color: #c53030;
+    font-size: 11px;
+    font-weight: 600
 }
 
 .task-modal input,
@@ -1006,6 +1038,43 @@
 
 .global-search kbd {
     font-size: 11px
+}
+
+/* Page-level loading / empty / error states */
+.workspace-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 24px;
+    text-align: center;
+    color: #7c838e;
+    font-size: 14px
+}
+
+.workspace-state h1 {
+    margin: 0 0 8px;
+    font: 700 20px Manrope, sans-serif;
+    color: #202632
+}
+
+.workspace-state-error {
+    color: #c53030;
+    font-weight: 600
+}
+
+.workspace-state-inline {
+    padding: 10px 0;
+    color: #8a909a;
+    font-size: 12px
+}
+
+/* Error banner (overrides the green .viewer-banner info style used for the same class) */
+.viewer-banner.workspace-request-error {
+    background: #fdecec;
+    border-color: #f5b5b5;
+    color: #c53030
 }
 
 .top-actions button {
@@ -1361,6 +1430,10 @@
 }
 
 .workspace-content {
+    background: #f5f6f8
+}
+
+.workspace-content--board {
     background: linear-gradient(180deg, #fff 0, #fff 238px, #f5f6f8 238px)
 }
 
@@ -1580,7 +1653,7 @@
 }
 
 @media(max-width:650px) {
-    .workspace-content {
+    .workspace-content--board {
         background: linear-gradient(180deg, #fff 0, #fff 315px, #f5f6f8 315px)
     }
 

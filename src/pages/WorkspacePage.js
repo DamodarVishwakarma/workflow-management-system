@@ -76,6 +76,8 @@ function WorkspacePage() {
   const [query, setQuery] = useState('');
   const [priority, setPriority] = useState('All');
   const [showForm, setShowForm] = useState(false);
+  const [createStatus, setCreateStatus] = useState('todo');
+  const [createTaskError, setCreateTaskError] = useState('');
   const [viewingTask, setViewingTask] = useState(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [showProjectModal, setShowProjectModal] = useState(false);
@@ -125,21 +127,21 @@ function WorkspacePage() {
     if (!canCreateTask || !activeProject) return;
 
     const form = new FormData(event.currentTarget);
-    setRequestError('');
+    setCreateTaskError('');
     try {
       await createTaskRequest({
         projectId: activeProject.id,
       title: form.get('title').trim(),
       description: form.get('description').trim(),
-      status: form.get('status'),
+      status: form.get('status') || createStatus,
       priority: form.get('priority'),
       type: form.get('type'),
       assigneeId: currentUser.id,
-      dueDate: form.get('dueDate'),
+      dueDate: form.get('dueDate') || null,
       }).unwrap();
       setShowForm(false);
     } catch (error) {
-      setRequestError(getApiErrorMessage(error));
+      setCreateTaskError(getApiErrorMessage(error));
     }
   };
 
@@ -187,12 +189,15 @@ function WorkspacePage() {
     }
   };
 
-  const openCreateTask = () => {
+  const openCreateTask = (status = 'todo') => {
+    setCreateStatus(status);
+    setCreateTaskError('');
     setShowForm(true);
   };
 
   const closeTaskModal = () => {
     setShowForm(false);
+    setCreateTaskError('');
   };
 
   const handleCreateProject = async (event) => {
@@ -304,7 +309,7 @@ function WorkspacePage() {
           onOpenSidebar={() => setSidebarOpen(true)}
         />
 
-        <main className="workspace-content">
+        <main className={`workspace-content${activeView === 'overview' ? ' workspace-content--board' : ''}`}>
           {requestError && <div className="viewer-banner workspace-request-error" role="alert">{requestError}</div>}
           {tasksError && <div className="viewer-banner workspace-request-error" role="alert">{getApiErrorMessage(tasksError)}</div>}
           {filesError && projectView === 'files' && <div className="viewer-banner workspace-request-error" role="alert">{getApiErrorMessage(filesError)}</div>}
@@ -404,6 +409,8 @@ function WorkspacePage() {
         <TaskModal
           onClose={closeTaskModal}
           onCreateTask={handleCreateTask}
+          initialStatus={createStatus}
+          error={createTaskError}
         />
       )}
 

@@ -158,7 +158,9 @@ def health(session: Session = Depends(get_session)):
 @router.post("/auth/signup", response_model=AuthOut, status_code=201, tags=["auth"])
 def signup(
     payload: SignupIn, request: Request, session: Session = Depends(get_session)
-):
+):  
+    import time
+    time.sleep(4)
     email = str(payload.email).lower()
     if session.scalar(select(User.id).where(func.lower(User.email) == email)):
         raise HTTPException(409, "An account with this email already exists")

@@ -1,4 +1,5 @@
 import TaskCard from './TaskCard';
+import Icon from '../common/Icon';
 import './BoardColumn.css';
 
 /**
@@ -35,10 +36,10 @@ function BoardColumn({
         <b>{tasks.length}</b>
         {canCreateTask && (
           <button
-            onClick={onOpenCreateModal}
+            onClick={() => onOpenCreateModal(column.id)}
             aria-label={`Add task to ${column.label}`}
           >
-            ＋
+            <Icon name="plus" size={14} />
           </button>
         )}
       </div>
@@ -58,8 +59,9 @@ function BoardColumn({
 
         {/* Empty state prompt if column has 0 tasks */}
         {tasks.length === 0 && canCreateTask && (
-          <button className="empty-column" onClick={onOpenCreateModal}>
-            ＋ Add your first task
+          <button className="empty-column" onClick={() => onOpenCreateModal(column.id)}>
+            <Icon name="plus" size={13} />
+            <span>Add your first task</span>
           </button>
         )}
 

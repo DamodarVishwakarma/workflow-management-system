@@ -8,7 +8,7 @@
  * - onClose: Function to close the modal dialog.
  * - onCreateTask: Form submit handler function.
  */
-function TaskModal({ onClose, onCreateTask, onUpdateTask, task = null }) {
+function TaskModal({ onClose, onCreateTask, onUpdateTask, task = null, initialStatus = 'todo', error = '' }) {
   const isEditing = Boolean(task);
   // Close modal if user clicks on the outer dark backdrop
   const handleBackdropClick = (event) => {
@@ -61,6 +61,7 @@ function TaskModal({ onClose, onCreateTask, onUpdateTask, task = null }) {
             Description
             <textarea
               name="description"
+              required
               rows="3"
               defaultValue={task?.description || ''}
               placeholder="Add useful context for your team"
@@ -91,7 +92,7 @@ function TaskModal({ onClose, onCreateTask, onUpdateTask, task = null }) {
 
             <label>
               Status
-              <select name="status" defaultValue={task?.status || 'todo'}>
+              <select name="status" defaultValue={task?.status || initialStatus}>
                 <option value="todo">To do</option>
                 <option value="progress">In progress</option>
                 <option value="done">Done</option>
@@ -100,9 +101,11 @@ function TaskModal({ onClose, onCreateTask, onUpdateTask, task = null }) {
           </div>
 
           <label>
-            Due date
+            Due date <span className="optional-hint">(optional)</span>
             <input name="dueDate" type="date" defaultValue={task?.dueDate || ''} />
           </label>
+
+          {error && <p className="task-modal-error" role="alert">{error}</p>}
 
           <div className="modal-actions">
             <button type="button" onClick={onClose}>
