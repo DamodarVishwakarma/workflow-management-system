@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing SSH"
+
+  build:
+    commands:
+      - echo "Getting deployment key"
+
+      - aws ssm get-parameter \
+        --name "/flowboard/deploy-key" \
+        --with-decryption \
+        --query Parameter.Value \
+        --output text > deploy_key
+
+      - chmod 600 deploy_key
+
+      - ssh -o StrictHostKeyChecking=no \
+        -i deploy_key \
+        ec2-user@13.126.50.98 \
+        "/home/ec2-user/deploy.sh"
