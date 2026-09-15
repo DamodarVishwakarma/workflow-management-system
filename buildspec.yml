@@ -3,21 +3,22 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing SSH"
+      - echo "Preparing SSH deployment"
+      - npm ci
 
   build:
     commands:
-      - echo "Getting deployment key"
-
-      - aws ssm get-parameter \
-        --name "/flowboard/deploy-key" \
-        --with-decryption \
-        --query Parameter.Value \
-        --output text > deploy_key
-
+      - test -n "${REACT_APP_API_URL:-}" || (echo "REACT_APP_API_URL must be configured in CodeBuild" && exit 1)
+      - test -n "${DEPLOY_HOST:-}" || (echo "DEPLOY_HOST must be configured in CodeBuild" && exit 1)
+      - npm run build
+      - tar -czf flowboard-build.tgz -C build .
+      - aws ssm get-parameter --name "${DEPLOY_KEY_PARAMETER:-/flowboard/deploy-key}" --with-decryption --query "Parameter.Value" --output text > deploy_key
       - chmod 600 deploy_key
+      - scp -o StrictHostKeyChecking=no -i deploy_key deploy.sh "${DEPLOY_USER:-ec2-user}@${DEPLOY_HOST}:/home/${DEPLOY_USER:-ec2-user}/deploy.sh"
+      - scp -o StrictHostKeyChecking=no -i deploy_key flowboard-build.tgz "${DEPLOY_USER:-ec2-user}@${DEPLOY_HOST}:/home/${DEPLOY_USER:-ec2-user}/flowboard-build.tgz"
+      - ssh -o StrictHostKeyChecking=no -i deploy_key "${DEPLOY_USER:-ec2-user}@${DEPLOY_HOST}" "chmod 700 /home/${DEPLOY_USER:-ec2-user}/deploy.sh && BUILD_ARCHIVE=/home/${DEPLOY_USER:-ec2-user}/flowboard-build.tgz /home/${DEPLOY_USER:-ec2-user}/deploy.sh"
 
-      - ssh -o StrictHostKeyChecking=no \
-        -i deploy_key \
-        ec2-user@13.126.50.98 \
-        "/home/ec2-user/deploy.sh"
+artifacts:
+  files:
+    - build/**/*
+  discard-paths: no

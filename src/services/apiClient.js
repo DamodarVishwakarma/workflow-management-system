@@ -1,7 +1,15 @@
 import axios from 'axios';
 
+const apiBaseUrl = process.env.REACT_APP_API_URL || (
+  process.env.NODE_ENV === 'development' ? 'http://localhost:8000/api/v1' : ''
+);
+
+if (!apiBaseUrl) {
+  throw new Error('REACT_APP_API_URL must be configured for production builds.');
+}
+
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1',
+  baseURL: apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

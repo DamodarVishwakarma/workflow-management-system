@@ -6,4 +6,6 @@ dist
 .env
 .env.*
 !.env.example
+deploy_key
+flowboard-build.tgz
 flowboard-backend/venv/
