@@ -19,7 +19,7 @@ sudo systemctl restart flowboard
 
 echo "Deploying frontend..."
 
-cd ../flowboard-frontend
+cd ../workflow-management-system
 
 mkdir -p build
 
