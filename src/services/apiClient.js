@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiBaseUrl = process.env.REACT_APP_API_URL || (
-  process.env.NODE_ENV === 'development' ? 'http://localhost:8000/api/v1' : ''
+  process.env.NODE_ENV === 'development' ? 'http://13.126.50.98/api/v1' : ''
 );
 
 if (!apiBaseUrl) {
