@@ -5,7 +5,7 @@ PROJECT_DIR=/home/ec2-user/workflow-management-system
 
 cd $PROJECT_DIR
 
-git pull origin main
+git pull origin master
 
 echo "Deploying backend..."
 
