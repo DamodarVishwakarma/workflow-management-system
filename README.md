@@ -2,7 +2,7 @@
 
 A focused workflow-management capstone built with React and JavaScript.
 
-## Run locally
+## Run project
 
 ```bash
 npm install
