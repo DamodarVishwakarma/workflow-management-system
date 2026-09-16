@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - echo "Preparing SSH deployment"
-      - npm ci
+      - npm install
 
   build:
     commands:
