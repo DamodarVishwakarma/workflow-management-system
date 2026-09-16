@@ -1,32 +1,46 @@
 #!/bin/bash
-set -e
+set -Eeuo pipefail
 
-PROJECT_DIR=/home/ec2-user/workflow-management-system
+PROJECT_DIR="${PROJECT_DIR:-/home/ec2-user/workflow-management-system}"
+BACKEND_DIR="${BACKEND_DIR:-$PROJECT_DIR/flowboard-backend}"
+BUILD_ARCHIVE="${BUILD_ARCHIVE:-/home/ec2-user/flowboard-build.tgz}"
+WEB_ROOT="${WEB_ROOT:-/usr/share/nginx/html}"
+GIT_BRANCH="${GIT_BRANCH:-main}"
 
-cd $PROJECT_DIR
+if [ ! -d "$PROJECT_DIR" ]; then
+  echo "Project directory not found: $PROJECT_DIR"
+  exit 1
+fi
 
-git pull origin master
+cd "$PROJECT_DIR"
+
+if [ -d .git ]; then
+  git fetch origin "$GIT_BRANCH" || git fetch origin master || true
+  git checkout "$GIT_BRANCH" || git checkout master || true
+  git pull origin "$GIT_BRANCH" || git pull origin master || true
+fi
 
 echo "Deploying backend..."
+cd "$BACKEND_DIR"
 
-cd flowboard-backend
+if [ ! -d "venv" ]; then
+  python3 -m venv venv
+fi
 
+# shellcheck disable=SC1091
 source venv/bin/activate
-
+pip install --upgrade pip
 pip install -r requirements.txt
 
-sudo systemctl restart flowboard
+sudo systemctl restart flowboard || true
 
 echo "Deploying frontend..."
+mkdir -p "$PROJECT_DIR/build"
+rm -rf "$PROJECT_DIR/build"/*
+tar -xzf "$BUILD_ARCHIVE" -C "$PROJECT_DIR/build"
 
-cd ../workflow-management-system
-
-mkdir -p build
-
-tar -xzf /home/ec2-user/flowboard-build.tgz -C build
-
-sudo rm -rf /usr/share/nginx/html/*
-sudo cp -r build/* /usr/share/nginx/html/
+sudo rm -rf "$WEB_ROOT"/*
+sudo cp -r "$PROJECT_DIR/build"/* "$WEB_ROOT"/
 
 sudo systemctl restart nginx
 
